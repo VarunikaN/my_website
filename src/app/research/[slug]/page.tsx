@@ -3,17 +3,17 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Markdown } from "@/components/Markdown";
 import { site } from "@/data/site";
-import { getResearch, research } from "@/data/works";
+import { getWriting, writing } from "@/data/works";
 
 type Props = { params: Promise<{ slug: string }> };
 
 export function generateStaticParams() {
-  return research.map((r) => ({ slug: r.slug }));
+  return writing.map((r) => ({ slug: r.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const post = getResearch(slug);
+  const post = getWriting(slug);
   if (!post) return {};
   return {
     title: `${post.title} — ${site.name}`,
@@ -21,20 +21,20 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function ResearchPage({ params }: Props) {
+export default async function WritingPage({ params }: Props) {
   const { slug } = await params;
-  const post = getResearch(slug);
+  const post = getWriting(slug);
   if (!post) notFound();
 
   return (
     <main className="px-5 pb-24 pt-28 md:px-10">
       <article className="mx-auto max-w-3xl">
         <Link
-          href="/#research"
+          href="/#writing"
           className="font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.14em]"
           style={{ color: "var(--accent)" }}
         >
-          ← Research
+          ← Writing
         </Link>
 
         <p
@@ -61,17 +61,11 @@ export default async function ResearchPage({ params }: Props) {
         </div>
 
         <div
-          className="mt-12 rounded border p-6"
+          className="mt-12 border p-6"
           style={{ borderColor: "var(--line)", background: "var(--bg-2)" }}
         >
-          <p
-            className="font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.14em]"
-            style={{ color: "var(--accent)" }}
-          >
-            Full paper
-          </p>
-          <p className="mt-2 text-sm leading-relaxed" style={{ color: "var(--ink-soft)" }}>
-            The complete white paper / report PDF is available on request.
+          <p className="text-sm leading-relaxed" style={{ color: "var(--ink-soft)" }}>
+            Full PDF available on request.
           </p>
           <a
             href={`mailto:${site.email}?subject=Request%20PDF%3A%20${encodeURIComponent(post.title)}`}

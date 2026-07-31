@@ -4,50 +4,44 @@ export function Contact() {
   return (
     <section
       id="contact"
-      className="px-5 py-20 md:px-10 md:py-28"
-      style={{ background: "var(--footer-bg)", color: "var(--footer-fg)" }}
+      className="border-t px-5 py-20 md:px-10 md:py-24"
+      style={{ borderColor: "var(--line)", background: "var(--bg)" }}
     >
       <div className="mx-auto max-w-6xl">
-        <p
-          className="font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.2em]"
-          style={{ color: "var(--accent-soft)" }}
-        >
-          Contact
-        </p>
-        <h2 className="mt-3 max-w-2xl font-[family-name:var(--font-sora)] text-4xl font-bold tracking-tight md:text-5xl">
-          Let&apos;s talk roles, research, or company-work deep dives
-        </h2>
-        <p className="mt-5 max-w-lg text-base leading-relaxed" style={{ color: "var(--footer-muted)" }}>
-          Open to ML / robotics / systems roles. Company project details and paper PDFs on request.
-        </p>
-
-        <div className="mt-10 flex flex-wrap gap-3">
-          <a href={`mailto:${site.email}`} className="btn-primary">
-            {site.email}
-          </a>
-          <a
-            href={site.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-ghost"
-            style={{ color: "var(--footer-fg)", borderColor: "rgba(235,228,216,0.28)" }}
-          >
-            GitHub
-          </a>
-          <a
-            href={site.resume}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-ghost"
-            style={{ color: "var(--footer-fg)", borderColor: "rgba(235,228,216,0.28)" }}
-          >
-            Resume PDF
-          </a>
+        <div className="grid gap-10 md:grid-cols-[1fr_auto] md:items-end">
+          <div>
+            <p
+              className="font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.2em]"
+              style={{ color: "var(--accent)" }}
+            >
+              Contact
+            </p>
+            <h2
+              className="mt-3 font-[family-name:var(--font-sora)] text-3xl font-bold tracking-tight md:text-4xl"
+              style={{ color: "var(--ink)" }}
+            >
+              {site.email}
+            </h2>
+            <p className="mt-4 max-w-md text-sm leading-relaxed" style={{ color: "var(--ink-soft)" }}>
+              Open to ML, robotics, and systems roles. Happy to share deeper project details or PDFs.
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-3">
+            <a href={`mailto:${site.email}`} className="btn-primary">
+              Email me
+            </a>
+            <a href={site.resume} target="_blank" rel="noopener noreferrer" className="btn-ghost">
+              Resume
+            </a>
+            <a href={site.github} target="_blank" rel="noopener noreferrer" className="btn-ghost">
+              GitHub
+            </a>
+          </div>
         </div>
 
         <footer
-          className="mt-20 flex flex-col gap-2 border-t pt-8 sm:flex-row sm:justify-between"
-          style={{ borderColor: "rgba(235,228,216,0.12)", color: "var(--footer-muted)" }}
+          className="mt-16 flex flex-col gap-2 border-t pt-6 sm:flex-row sm:justify-between"
+          style={{ borderColor: "var(--line)", color: "var(--muted)" }}
         >
           <p className="font-[family-name:var(--font-mono)] text-[10px] uppercase tracking-[0.14em]">
             © {new Date().getFullYear()} {site.name}

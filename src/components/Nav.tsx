@@ -7,8 +7,8 @@ import { useTheme } from "./ThemeProvider";
 
 const links = [
   { href: "/#work", label: "Work" },
-  { href: "/#company", label: "Company" },
-  { href: "/#research", label: "Research" },
+  { href: "/#selected", label: "Selected" },
+  { href: "/#writing", label: "Writing" },
   { href: "/#contact", label: "Contact" },
 ];
 

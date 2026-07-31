@@ -16,11 +16,10 @@ export function WorkGrid() {
           className="mt-3 font-[family-name:var(--font-sora)] text-4xl font-bold tracking-tight md:text-5xl"
           style={{ color: "var(--ink)" }}
         >
-          Technical work you can read
+          What I&apos;ve been shipping
         </h2>
         <p className="mt-4 max-w-xl text-base leading-relaxed" style={{ color: "var(--ink-soft)" }}>
-          GEAK kernels, quantization systems, and humanoid sim — full blogs below. Company
-          pipelines are listed separately on request.
+          Voice-agent eval, humanoid teleop, and AMD kernels — full blogs below.
         </p>
 
         <div className="mt-12 divide-y border-y" style={{ borderColor: "var(--line)" }}>
