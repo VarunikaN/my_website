@@ -70,7 +70,7 @@ export default async function WorkPage({ params }: Props) {
 
         {work.cover && (
           <div
-            className="relative mt-10 aspect-[16/9] overflow-hidden rounded border"
+            className="relative mt-10 aspect-[16/9] overflow-hidden border"
             style={{ borderColor: "var(--line)" }}
           >
             <Image src={work.cover} alt="" fill className="object-cover" sizes="768px" priority />
@@ -81,10 +81,24 @@ export default async function WorkPage({ params }: Props) {
           <Markdown content={body} />
         </div>
 
-        {work.github && (
-          <a href={work.github} target="_blank" rel="noopener noreferrer" className="btn-primary mt-10">
-            View on GitHub
-          </a>
+        {work.requestDetails && (
+          <div
+            className="mt-12 border p-6"
+            style={{ borderColor: "var(--line)", background: "var(--bg-2)" }}
+          >
+            <p className="font-[family-name:var(--font-sora)] text-lg font-semibold" style={{ color: "var(--ink)" }}>
+              Want more detail?
+            </p>
+            <p className="mt-2 text-sm leading-relaxed" style={{ color: "var(--ink-soft)" }}>
+              Architecture notes, metrics, and media for this project are available on request.
+            </p>
+            <a
+              href={`mailto:${site.email}?subject=Request%20details%3A%20${encodeURIComponent(work.title)}`}
+              className="btn-primary mt-5"
+            >
+              Request details
+            </a>
+          </div>
         )}
       </article>
     </main>

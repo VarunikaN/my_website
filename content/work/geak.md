@@ -2,6 +2,8 @@
 
 **Task:** \`hip2hip/gemm\` · **Device:** AMD Instinct MI300X VF (gfx942, CDNA3, 304 CUs) · **Date:** July 2026
 
+![GPU systems](/images/covers/gpu-silicon.jpg)
+
 ## What is GEAK?
 
 GEAK is multi-agent GPU performance optimization for AMD Instinct MI GPUs. Driven by Claude Code and orchestrated by deterministic JS workflows, \`kernel_workflow/\` optimizes a single AMD GPU kernel — Triton, HIP, CK, FlyDSL, or any AMD GPU source.

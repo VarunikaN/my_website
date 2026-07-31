@@ -6,47 +6,39 @@ export type Work = {
   blurb: string;
   cover?: string;
   featured?: boolean;
-  github?: string;
+  requestDetails?: boolean;
   mdFile?: string;
   body?: string;
 };
 
 export const works: Work[] = [
   {
-    slug: "vaakya-eval",
-    title: "Vaakya · Voice Agent Eval Framework",
+    slug: "voice-agent-eval",
+    title: "Voice Agent Evaluation Framework",
     tag: "Agents · Evaluation · Current",
     year: "2026",
     featured: true,
+    cover: "/images/covers/voice-agent.jpg",
     blurb:
-      "AOP validation for production voice agents — markdown specs → JSON cases → deterministic tool smoke, LLM judges, and live API coverage.",
-    body: `## What I'm building now
+      "Making sure support agents behave correctly before callers ever hear them — scenarios, automated checks, and live coverage.",
+    body: `## What this is
 
-At Dheyo I'm working on **Vaakya** — a customer-support voice/chat stack — and specifically the **AOP validation framework** that keeps agent operating procedures honest after every create or edit.
+I'm currently building a system that **tests voice and chat support agents** the way you'd want a QA suite for software — but for conversations.
 
-AOPs (agent operating procedures) describe flows like cancellation, booking, or parking support. When someone changes an AOP in Weaver, we need to know it still calls the right tools, handles sad paths, and doesn't invent success.
+When someone edits how an agent should handle a booking, a cancellation, or a parking question, the framework asks: does it still call the right tools? Does it fail gracefully on bad IDs? Does it refuse to invent a success message?
 
-## Pipeline
+## What I'm doing day to day
 
-\`\`\`text
-AOP markdown → generate.py → cases/<aop>/*.json
-                              ├─ deterministic tool smoke
-                              ├─ LLM judge (Anthropic Session or OpenCode)
-                              └─ live Way coverage suite (100% on tools + client)
-\`\`\`
-
-1. **Generate** — turn AOP markdown into structured conversation cases (happy + sad moods, expected tool args, expected outputs).
-2. **Deterministic** — replay tool turns from JSON against the agent tools; score the last tool \`output\`.
-3. **LLM mode** — run user turns through a live session (Anthropic or OpenCode \`way-parking\` agent) and compare tools + outputs to the gold JSON.
-4. **Coverage** — \`aop_suite.py\` drives contracts and live Way staging sequences so \`tools.py\` + \`way_client.py\` hit 100% line coverage (mock mode for CI without network).
+- Turning high-level agent playbooks into **test conversations** (happy paths and messy ones)
+- Running those conversations through **fast automated checks** and optional LLM judges
+- Measuring whether the agent tools and API clients stay fully covered as the product moves
+- Feeding results back so editors know a change is safe before it hits a real phone line
 
 ## Why it matters
 
-Voice agents fail quietly: wrong tool order, missing identity checks, hallucinated confirmations. This harness makes regressions visible before they hit Twilio callers — generate, pytest, optional LLM, coverage HTML under \`results/\`.
+Voice agents fail quietly. This work is about catching those failures early — so what ships is boringly reliable.
 
-## Stack
-
-Python · pytest · OpenCode agents · Anthropic · Way Decagon staging API · Vaakya Weaver/Operator UI
+![Voice systems](/images/covers/voice-agent.jpg)
 `,
   },
   {
@@ -57,66 +49,43 @@ Python · pytest · OpenCode agents · Anthropic · Way Decagon staging API · V
     featured: true,
     cover: "/images/humanoid/teleop-v1-35.jpg",
     blurb:
-      "Authoring pick-place scenes in Isaac Sim, solving IK for GR1T2 joints, and teleoperating reach-to-grasp trajectories with path planning.",
+      "Authoring pick-place scenes, solving IK for GR1T2 joints, and teleoperating reach-to-grasp trajectories.",
     body: `## The setup
 
-I worked with **Fourier GR1T2** in **Isaac Sim / Isaac Lab (LeIsaac)** — building pick-and-place environments, wiring the humanoid into manager-based tasks, and driving it through **keyboard teleoperation** with Pinocchio-backed kinematics.
+I worked with **Fourier GR1T2** in **Isaac Sim / Isaac Lab** — building pick-and-place environments, wiring the humanoid into tasks, and driving it through **keyboard teleoperation** with Pinocchio-backed kinematics.
 
-The goal was not a demo gif. It was to understand how a high-DOF humanoid reaches, orients, and grasps when the scene, the joints, and the controller all have to agree.
+## Environment creation
 
-## Environment creation in Isaac Sim
+Scenes were authored as Isaac Lab tasks:
 
-Scenes were authored as Isaac Lab tasks (\`Isaac-PickPlace-GR1T2-Abs-v0\` and kitchen variants):
-
-- Spawn the GR1T2 USD, bins / KLT containers, and graspable objects via env configs (\`pickplace_gr1t2_env_cfg\`)
-- Inspect and debug prims with scene inspection scripts before teleop
-- Add new objects by extending the manager-based pick-place config rather than hand-hacking the stage every run
+- Spawn the humanoid, bins / containers, and graspable objects from env configs
+- Inspect and debug the stage before teleop
+- Add new objects through manager-based pick-place configs
 - Enable **Pinocchio** so IK / FK stay consistent with the articulated model
-
-That pipeline — config → stage → teleop script — is how new props and targets entered the loop without breaking joint limits.
 
 ## Inverse kinematics & joint motion
 
-Teleop does not send end-effector poses into the void. Commands map through **inverse kinematics** into joint targets:
-
-- Desired wrist / hand pose in task space → IK solver → joint angles across the arm (and relevant torso DOFs)
-- Joint trajectories must respect limits, avoid singularities, and keep the grasp frame stable as the hand approaches the object
-- Absolute-pose task variants (\`Abs-v0\`) make the controller reason in Cartesian space while the plant still moves in joint space
-
-Watching joint panels while teleoperating made failures obvious: elbow lock, over-rotation at the wrist, or a grasp that looked fine in camera but was out of reach for the kinematic chain.
+Teleop maps desired hand poses into **joint targets** through inverse kinematics — respecting limits, avoiding singularities, and keeping the grasp frame stable on approach.
 
 ## Path planning & teleoperation
 
-Keyboard teleop (\`gr1t2_keyboard_teleop\`, kitchen teleop) was the outer loop:
-
-1. Move the end-effector toward the target with incremental Cartesian / joint commands
-2. Let the controller **plan a path** that interpolates through feasible joint configurations
-3. Approach, align the grasp, close, lift, place
-4. Compare that humanoid path to parallel-jaw arms (Franka / UR10) for sim-to-real intuition — more DOFs, more ways to fail, richer contact
-
-Frames below are from teleop sessions — reach, hover, grasp, and place under Isaac Sim.
+Keyboard teleop was the outer loop: move toward the target, let the controller **plan a feasible joint path**, approach, grasp, lift, place — and compare that to parallel-jaw arms for sim-to-real intuition.
 
 ![Teleop — approach](/images/humanoid/teleop-v1-15.jpg)
 
 ![Teleop — reach](/images/humanoid/teleop-v1-35.jpg)
 
-![Teleop — grasp alignment](/images/humanoid/teleop-v1-55.jpg)
+![Teleop — grasp](/images/humanoid/teleop-v1-55.jpg)
 
 ![Teleop — place](/images/humanoid/teleop-v1-80.jpg)
 
-![Kitchen teleop — approach](/images/humanoid/teleop-v2-15.jpg)
+![Kitchen — approach](/images/humanoid/teleop-v2-15.jpg)
 
-![Kitchen teleop — mid trajectory](/images/humanoid/teleop-v2-35.jpg)
+![Kitchen — mid path](/images/humanoid/teleop-v2-35.jpg)
 
-![Kitchen teleop — grasp](/images/humanoid/teleop-v2-55.jpg)
+![Kitchen — grasp](/images/humanoid/teleop-v2-55.jpg)
 
-![Kitchen teleop — retract](/images/humanoid/teleop-v2-80.jpg)
-
-## Stack
-
-Isaac Sim · Isaac Lab / LeIsaac · Pinocchio · GR1T2 · manager-based pick-place tasks · keyboard teleop
-
-Related session media also lives in shared Drive galleries from the humanoid runs.
+![Kitchen — retract](/images/humanoid/teleop-v2-80.jpg)
 `,
   },
   {
@@ -125,9 +94,127 @@ Related session media also lives in shared Drive galleries from the humanoid run
     tag: "GPU · HIP · Systems",
     year: "2026",
     featured: true,
+    cover: "/images/covers/gpu-silicon.jpg",
     blurb:
-      "Multi-agent GEMM optimization on AMD Instinct MI300X — LDS tiling, register micro-tiles, up to 65× on transpose layouts, 5.24× geomean.",
+      "Multi-agent GEMM optimization on AMD Instinct MI300X — up to 65× on transpose layouts, 5.24× geomean.",
     mdFile: "geak.md",
+  },
+  {
+    slug: "abb-food-pipeline",
+    title: "Food Pick-and-Place · Sim-to-Real",
+    tag: "Robotics · Synthetic Data",
+    year: "2025–26",
+    featured: true,
+    requestDetails: true,
+    cover: "/images/covers/food-robot.jpg",
+    blurb:
+      "End-to-end synthetic data for robotic food picking — layouts, photoreal crates, depth, masks, and priority picks.",
+    body: `## The story
+
+Robots that pick food packs from crates need vision that understands **where each packet is**, how deep it sits, and which one to grab first. Collecting that by hand is slow.
+
+I helped build a **sim-to-real pipeline** that goes from scene layouts to photoreal crate images to depth and instance masks — including a signal for the robot’s **priority pick**.
+
+## What I owned (high level)
+
+- Turning scene configs into physics-aware placements
+- Generating training imagery and realism passes for packs in crates
+- Depth and segmentation so each item is separable for grasping
+- Closing the loop toward robot simulation
+
+![Food robotics](/images/covers/food-robot.jpg)
+
+![Pack assets](/images/food/toprika_chips.jpg)
+
+## Want the deep dive?
+
+Internal media, metrics, and architecture notes are **available on request** for recruiters and collaborators.
+`,
+  },
+  {
+    slug: "synd-realism",
+    title: "Synthetic Assets & Realism Generation",
+    tag: "3D · Generative",
+    year: "2025–26",
+    featured: true,
+    requestDetails: true,
+    cover: "/images/covers/synth-3d.jpg",
+    blurb:
+      "Blender corpora and generative realism so simulation assets look camera-ready without endless manual photoshoots.",
+    body: `## The story
+
+Simulation loves clean geometry. Robots need images that look like the real world. I worked on the bridge: **3D assets → generative realism → training-ready frames**.
+
+## What I did
+
+- Built and textured food / pack assets in Blender
+- Ran realism passes so synthetic renders read as photographs
+- Fed those frames into downstream LoRA and layout workflows
+
+![Synthetic 3D](/images/covers/synth-3d.jpg)
+
+![Blender work](/images/blender/asset-1.jpg)
+
+## Want the deep dive?
+
+Pipelines, prompts, and sample dumps are **available on request**.
+`,
+  },
+  {
+    slug: "quantization-systems",
+    title: "Dynamic Quantization & Fast Inference",
+    tag: "Inference · Systems",
+    year: "2025–26",
+    featured: true,
+    requestDetails: true,
+    cover: "/images/covers/quant.jpg",
+    blurb:
+      "Smarter per-layer quantization and CUDA/Numba kernels so quantized models stay accurate and actually run fast.",
+    body: `## The story
+
+Quantization is easy to claim and hard to ship. I worked on **choosing formats layer by layer** and rewriting the kernels that actually move tokens.
+
+## What I focused on
+
+- Dynamic schemas that beat naive one-size-fits-all quantization on quality benchmarks
+- CUDA and Numba paths that make quantized inference practical
+- Benchmarking so “faster” and “still correct” are both true
+
+![Systems work](/images/covers/quant.jpg)
+
+## Want the deep dive?
+
+Methods, numbers, and artifacts are **available on request**.
+`,
+  },
+  {
+    slug: "scenesmith-cosmos-oscar",
+    title: "Worlds, Scenes & Oscar Simulation",
+    tag: "Simulation · Environment Gen",
+    year: "2025–26",
+    featured: true,
+    requestDetails: true,
+    cover: "/images/covers/world-gen.jpg",
+    blurb:
+      "Environment generation and Isaac Sim / Oscar runs that feed richer worlds into robot and vision pipelines.",
+    body: `## The story
+
+Policies and vision models need places to live. I worked on **building those places** — SceneSmith-style environment generation, Cosmos experiments, and Oscar + Isaac Sim manipulation runs.
+
+## What that looked like
+
+- Assembling scenes instead of hand-authoring every shelf and crate
+- Exploring world-model style generation for downstream data
+- Running Oscar demos and Isaac pick-place baselines in simulation
+
+![World generation](/images/covers/world-gen.jpg)
+
+![Simulation](/images/covers/sim-robot.jpg)
+
+## Want the deep dive?
+
+Experiment notes and media are **available on request**.
+`,
   },
 ];
 
@@ -137,27 +224,30 @@ export type WritingPost = {
   venue: string;
   authors: string;
   blurb: string;
+  cover?: string;
   body: string;
 };
 
-/** Short overviews — full PDFs on request */
 export const writing: WritingPost[] = [
   {
     slug: "grpo-prompt-enhancement",
     title: "Enhancing Text-to-Image Prompts with GRPO",
     venue: "Dheyo AI · 2026",
     authors: "Varunika Naini, Aakash Varma Nadimpalli",
+    cover: "/images/covers/prompt-gen.jpg",
     blurb:
       "Constraint-aware prompt enhancement with reinforcement learning — stronger negation, counts, and composition.",
     body: `## Overview
 
-Text-to-image models reward verbose prompts, but expanders often **break explicit constraints** (“no scallions”, “exactly four dogs”). This work frames prompt enhancement as a **GRPO** policy trained with structured visual feedback.
+Text-to-image models reward verbose prompts, but expanders often **break explicit constraints**. This work frames prompt enhancement as a **GRPO** policy trained with structured visual feedback.
 
 ## Idea in brief
 
 - Expand prompts with an RL policy instead of pure SFT
-- Score generations against a taxonomy of logical / spatial key points
+- Score generations against logical / spatial key points
 - Optimize for constraint adherence, not just aesthetic detail
+
+![Generative imagery](/images/covers/prompt-gen.jpg)
 
 ## Outcome
 
@@ -173,21 +263,23 @@ Available on request.
     title: "LBA-Net: Boundary-Aware Self-Distillation",
     venue: "Medical & natural image benchmarks",
     authors: "Varunika Naini et al.",
+    cover: "/images/covers/medical-vision.jpg",
     blurb:
       "Compact segmentation with a dual-branch boundary decoder and EMA self-distillation — strong mIoU at low FLOPs.",
     body: `## Overview
 
-**LBA-Net** is a MobileNetV2 encoder–decoder with a dual-branch boundary-attentive decoder and EMA-based self-distillation.
+**LBA-Net** is a compact encoder–decoder with a boundary-attentive decoder and EMA self-distillation for sharp medical and natural-image segmentation.
+
+![Medical vision](/images/covers/medical-vision.jpg)
 
 ## Highlights
 
 - **91.86% mIoU** on THRS-RSNA at **13.88M** parameters
 - Roughly **10× fewer FLOPs** than Swin-UNet across six benchmarks
-- +2.2% boundary IoU from the EMA teacher–student scheme
 
 ## Full PDF
 
-Available on request. Related repo: [LBA-Net](https://github.com/VarunikaN/LBA-Net).
+Available on request.
 `,
   },
   {
@@ -195,16 +287,19 @@ Available on request. Related repo: [LBA-Net](https://github.com/VarunikaN/LBA-N
     title: "RDIF: Radiomic-Guided Diffusion for Explainable Segmentation",
     venue: "IIITDM Kurnool · 2026",
     authors: "Varunika Naini, Ganesh Mani Kumar Ananthaneni",
+    cover: "/images/covers/explain-ai.jpg",
     blurb:
       "Post-hoc XAI that fuses Integrated Gradient CAMs with radiomic texture gates via anisotropic diffusion.",
     body: `## Overview
 
-**RDIF** seeds Integrated Gradient CAMs, gates them with radiomic texture cues (Gabor, LBP, GLCM), and diffuses with Perona–Malik anisotropy so saliency hugs anatomy.
+**RDIF** makes segmentation explanations hug anatomy — radiomic texture cues guide diffusion of saliency maps so they stay clinically meaningful.
+
+![Explainable AI](/images/covers/explain-ai.jpg)
 
 ## Highlights
 
-- mIoU **0.556** on CVC-ClinicDB vs **0.036** for LayerCAM (~15×)
-- Near-perfect Pointing Game scores on THRS Epiphysis and Montgomery
+- Large gains vs LayerCAM on clinic benchmarks
+- Strong pointing-game alignment with ground-truth structure
 
 ## Full PDF
 
@@ -221,6 +316,5 @@ export function getWriting(slug: string) {
   return writing.find((r) => r.slug === slug);
 }
 
-/** @deprecated alias */
 export const research = writing;
 export const getResearch = getWriting;
