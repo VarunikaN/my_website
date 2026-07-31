@@ -1,3 +1,4 @@
+import { CompanyWork } from "@/components/CompanyWork";
 import { Contact } from "@/components/Contact";
 import { Experience } from "@/components/Experience";
 import { Hero } from "@/components/Hero";
@@ -9,6 +10,7 @@ export default function Home() {
     <main>
       <Hero />
       <WorkGrid />
+      <CompanyWork />
       <Experience />
       <Research />
       <Contact />

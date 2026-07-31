@@ -7,7 +7,7 @@ import { useTheme } from "./ThemeProvider";
 
 const links = [
   { href: "/#work", label: "Work" },
-  { href: "/#experience", label: "XP" },
+  { href: "/#company", label: "Company" },
   { href: "/#research", label: "Research" },
   { href: "/#contact", label: "Contact" },
 ];
@@ -29,17 +29,16 @@ export function Nav() {
       style={{
         background: scrolled ? "var(--nav-bg)" : "transparent",
         borderBottom: scrolled ? "1px solid var(--line)" : "1px solid transparent",
-        backdropFilter: scrolled ? "blur(14px)" : undefined,
+        backdropFilter: scrolled ? "blur(12px)" : undefined,
       }}
     >
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4 md:px-8">
         <Link
           href="/"
-          className="font-[family-name:var(--font-sora)] text-base font-semibold tracking-tight"
+          className="font-[family-name:var(--font-sora)] text-sm font-bold tracking-[0.14em]"
           style={{ color: "var(--ink)" }}
         >
           {site.brand}
-          <span style={{ color: "var(--pink)" }}>.</span>
         </Link>
 
         <ul className="hidden items-center gap-7 md:flex">
@@ -47,10 +46,10 @@ export function Nav() {
             <li key={l.href}>
               <a
                 href={l.href}
-                className="font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.14em] transition-colors"
+                className="font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.14em] transition-colors hover:opacity-100"
                 style={{ color: "var(--muted)" }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.color = "var(--pink)";
+                  e.currentTarget.style.color = "var(--accent)";
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.color = "var(--muted)";
@@ -66,7 +65,7 @@ export function Nav() {
           <button
             type="button"
             onClick={toggle}
-            className="rounded-full border px-3 py-1.5 font-[family-name:var(--font-mono)] text-[10px] uppercase tracking-[0.14em]"
+            className="rounded border px-3 py-1.5 font-[family-name:var(--font-mono)] text-[10px] uppercase tracking-[0.14em]"
             style={{
               borderColor: "var(--btn-ghost-border)",
               color: "var(--ink)",
