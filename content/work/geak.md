@@ -1,8 +1,6 @@
 # GEAK: Teaching AMD Instinct How to Multiply Faster
 
-**Task:** \`hip2hip/gemm\` · **Device:** AMD Instinct MI300X (gfx942) · **Geomean:** 5.24× · **Peak:** 65×
-
-![Silicon & systems](/images/geak/amd-chip.jpg)
+**Task:** `hip2hip/gemm` · **Device:** AMD Instinct MI300X (gfx942) · **Geomean:** 5.24× · **Peak:** 65×
 
 ## Catch line
 
@@ -14,15 +12,15 @@ GEAK is a multi-agent workflow that profiles a naïve HIP GEMM, spins specialist
 
 ## Why the naïve kernel hurt
 
-One thread per output element. No LDS reuse. In \`transpose_b\`, adjacent threads strode through B with gap **K** — roughly **16× wasted DRAM traffic**. Same shape, \`transpose_b\` was ~16× slower than \`standard\`.
+One thread per output element. No LDS reuse. In `transpose_b`, adjacent threads strode through B with gap **K** — roughly **16× wasted DRAM traffic**. Same shape, `transpose_b` was ~16× slower than `standard`.
 
 ## What won
 
 An **LDS-tiled, register-blocked** kernel with compile-time layout dispatch:
 
-1. Cooperative \`float4\` loads into shared memory — coalesced for every layout  
+1. Cooperative `float4` loads into shared memory — coalesced for every layout  
 2. 4×4 micro-tiles in registers — 16 FMAs reusing each LDS fetch  
-3. \`template<bool TRANSPOSED>\` — no runtime branch in the hot loop  
+3. `template<bool TRANSPOSED>` — no runtime branch in the hot loop  
 4. Bounds-checked fallback for ragged shapes  
 
 ![Datacenter compute](/images/geak/server-rack.jpg)
