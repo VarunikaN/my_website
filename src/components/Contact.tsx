@@ -2,31 +2,24 @@ import { site } from "@/data/site";
 
 export function Contact() {
   return (
-    <section
-      id="contact"
-      className="relative overflow-hidden border-t border-[var(--line)] px-5 py-24 md:px-10 md:py-32"
-      style={{
-        background:
-          "radial-gradient(ellipse at 20% 0%, rgba(13,115,119,0.18), transparent 50%), radial-gradient(ellipse at 90% 100%, rgba(196,92,38,0.12), transparent 45%), #0b1824",
-      }}
-    >
-      <div className="noise opacity-40 mix-blend-soft-light" />
-      <div className="relative mx-auto max-w-6xl">
-        <p className="font-[family-name:var(--font-jetbrains)] text-[11px] uppercase tracking-[0.2em] text-[#7eb8bb]">
+    <section id="contact" className="px-5 py-20 md:px-10 md:py-28" style={{ background: "var(--footer-bg)", color: "var(--footer-fg)" }}>
+      <div className="mx-auto max-w-6xl">
+        <p className="font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.2em]" style={{ color: "var(--pink)" }}>
           Contact
         </p>
-        <h2 className="mt-4 max-w-2xl font-[family-name:var(--font-syne)] text-4xl font-bold tracking-tight text-[#eef3f6] md:text-6xl">
-          Let&apos;s build the next pipeline together
+        <h2 className="mt-3 max-w-2xl font-[family-name:var(--font-sora)] text-4xl font-bold tracking-tight md:text-6xl">
+          Recruiters: this is your cue.
         </h2>
-        <p className="mt-6 max-w-lg text-base leading-relaxed text-[#b7c5d1]">
-          Open to research collaborations, robotics / ML roles, and conversations about
-          sim-to-real systems, quantization, and generative tooling.
+        <p className="mt-5 max-w-lg text-base leading-relaxed" style={{ color: "var(--footer-muted)" }}>
+          Looking for someone who can own synthetic data, simulation, RL for generative models,
+          and GPU kernels? Let&apos;s talk.
         </p>
 
-        <div className="mt-12 flex flex-wrap gap-4">
+        <div className="mt-10 flex flex-wrap gap-3">
           <a
             href={`mailto:${site.email}`}
-            className="inline-flex items-center bg-[#eef3f6] px-6 py-3.5 font-[family-name:var(--font-jetbrains)] text-[11px] uppercase tracking-[0.16em] text-[#0b1824] transition-transform hover:-translate-y-0.5"
+            className="btn-primary"
+            style={{ background: "var(--pink)", color: "#120910" }}
           >
             {site.email}
           </a>
@@ -34,7 +27,8 @@ export function Contact() {
             href={site.github}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center border border-white/20 px-6 py-3.5 font-[family-name:var(--font-jetbrains)] text-[11px] uppercase tracking-[0.16em] text-[#eef3f6] transition-colors hover:border-[#7eb8bb] hover:text-[#7eb8bb]"
+            className="btn-ghost"
+            style={{ color: "var(--footer-fg)", borderColor: "rgba(255,232,241,0.3)" }}
           >
             GitHub
           </a>
@@ -42,17 +36,18 @@ export function Contact() {
             href={site.resume}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center border border-white/20 px-6 py-3.5 font-[family-name:var(--font-jetbrains)] text-[11px] uppercase tracking-[0.16em] text-[#eef3f6] transition-colors hover:border-[#7eb8bb] hover:text-[#7eb8bb]"
+            className="btn-ghost"
+            style={{ color: "var(--footer-fg)", borderColor: "rgba(255,232,241,0.3)" }}
           >
             Resume PDF
           </a>
         </div>
 
-        <footer className="mt-24 flex flex-col gap-3 border-t border-white/10 pt-8 text-[#7a8b9a] sm:flex-row sm:items-center sm:justify-between">
-          <p className="font-[family-name:var(--font-jetbrains)] text-[10px] uppercase tracking-[0.16em]">
+        <footer className="mt-20 flex flex-col gap-2 border-t pt-8 sm:flex-row sm:justify-between" style={{ borderColor: "rgba(255,232,241,0.12)", color: "var(--footer-muted)" }}>
+          <p className="font-[family-name:var(--font-mono)] text-[10px] uppercase tracking-[0.14em]">
             © {new Date().getFullYear()} {site.name}
           </p>
-          <p className="font-[family-name:var(--font-jetbrains)] text-[10px] uppercase tracking-[0.16em]">
+          <p className="font-[family-name:var(--font-mono)] text-[10px] uppercase tracking-[0.14em]">
             {site.location} · {site.phone}
           </p>
         </footer>

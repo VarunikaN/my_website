@@ -2,53 +2,39 @@ import { papers } from "@/data/site";
 
 export function Research() {
   return (
-    <section id="research" className="border-t border-[var(--line)] bg-paper px-5 py-24 md:px-10 md:py-32">
+    <section id="research" className="px-5 py-20 md:px-10 md:py-28">
       <div className="mx-auto max-w-6xl">
-        <div className="max-w-xl">
-          <p className="font-[family-name:var(--font-jetbrains)] text-[11px] uppercase tracking-[0.2em] text-signal">
-            Research & writing
-          </p>
-          <h2 className="mt-4 font-[family-name:var(--font-syne)] text-4xl font-bold tracking-tight text-ink md:text-5xl">
-            Papers and reports
-          </h2>
-          <p className="mt-5 text-base leading-relaxed text-ink-soft/80">
-            White papers and project reports spanning prompt RL, medical XAI, segmentation, and
-            GPU kernels.
-          </p>
-        </div>
+        <p className="font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.2em]" style={{ color: "var(--pink)" }}>
+          Research
+        </p>
+        <h2 className="mt-3 font-[family-name:var(--font-sora)] text-4xl font-bold tracking-tight md:text-5xl" style={{ color: "var(--ink)" }}>
+          Papers & white papers
+        </h2>
+        <p className="mt-4 max-w-xl" style={{ color: "var(--ink-soft)" }}>
+          LBA-Net, RDIF, and the GRPO white paper are available on request — happy to share with recruiters and collaborators.
+        </p>
 
-        <div className="mt-16 space-y-0">
-          {papers.map((paper) => (
-            <article
-              key={paper.title}
-              className="grid gap-4 border-t border-[var(--line)] py-10 last:border-b md:grid-cols-[1.4fr_1fr] md:gap-12"
-            >
+        <div className="mt-12 divide-y" style={{ borderColor: "var(--line)" }}>
+          {papers.map((p) => (
+            <article key={p.title} className="grid gap-4 border-t py-8 md:grid-cols-[1.3fr_1fr]" style={{ borderColor: "var(--line)" }}>
               <div>
-                <p className="font-[family-name:var(--font-jetbrains)] text-[10px] uppercase tracking-[0.16em] text-ink/40">
-                  {paper.venue}
+                <p className="font-[family-name:var(--font-mono)] text-[10px] uppercase tracking-[0.14em]" style={{ color: "var(--muted)" }}>
+                  {p.venue}
                 </p>
-                <h3 className="mt-3 font-[family-name:var(--font-syne)] text-2xl font-semibold leading-snug text-ink md:text-[1.65rem]">
-                  {paper.title}
+                <h3 className="mt-2 font-[family-name:var(--font-sora)] text-xl font-semibold leading-snug md:text-2xl" style={{ color: "var(--ink)" }}>
+                  {p.title}
                 </h3>
-                <p className="mt-3 text-sm text-ink-soft/65">{paper.authors}</p>
+                <p className="mt-2 text-sm" style={{ color: "var(--muted)" }}>
+                  {p.authors}
+                </p>
               </div>
-              <div className="flex flex-col justify-between gap-6">
-                <p className="text-[15px] leading-relaxed text-ink-soft/80">{paper.blurb}</p>
-                {paper.href ? (
-                  <a
-                    href={paper.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex w-fit items-center gap-2 font-[family-name:var(--font-jetbrains)] text-[11px] uppercase tracking-[0.16em] text-signal transition-colors hover:text-signal-deep"
-                  >
-                    Read PDF
-                    <span aria-hidden>→</span>
-                  </a>
-                ) : (
-                  <p className="font-[family-name:var(--font-jetbrains)] text-[11px] uppercase tracking-[0.14em] text-ink/35">
-                    Available on request
-                  </p>
-                )}
+              <div>
+                <p className="text-[15px] leading-relaxed" style={{ color: "var(--ink-soft)" }}>
+                  {p.blurb}
+                </p>
+                <p className="mt-4 font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.14em]" style={{ color: "var(--lilac)" }}>
+                  Available on request
+                </p>
               </div>
             </article>
           ))}

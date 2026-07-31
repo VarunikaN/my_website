@@ -1,20 +1,23 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { site } from "@/data/site";
+import { useTheme } from "./ThemeProvider";
 
 const links = [
-  { href: "#work", label: "Work" },
-  { href: "#projects", label: "Projects" },
-  { href: "#research", label: "Research" },
-  { href: "#contact", label: "Contact" },
+  { href: "/#work", label: "Work" },
+  { href: "/#experience", label: "XP" },
+  { href: "/#research", label: "Research" },
+  { href: "/#contact", label: "Contact" },
 ];
 
 export function Nav() {
+  const { theme, toggle } = useTheme();
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
+    const onScroll = () => setScrolled(window.scrollY > 16);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -22,39 +25,62 @@ export function Nav() {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
-        scrolled
-          ? "border-b border-[var(--line)] bg-[color-mix(in_srgb,var(--paper)_88%,transparent)] backdrop-blur-md"
-          : "bg-transparent"
-      }`}
+      className="fixed inset-x-0 top-0 z-50 transition-all duration-300"
+      style={{
+        background: scrolled ? "var(--nav-bg)" : "transparent",
+        borderBottom: scrolled ? "1px solid var(--line)" : "1px solid transparent",
+        backdropFilter: scrolled ? "blur(14px)" : undefined,
+      }}
     >
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4 md:px-8">
-        <a
-          href="#top"
-          className="font-[family-name:var(--font-syne)] text-sm font-bold tracking-[0.18em] text-ink"
+        <Link
+          href="/"
+          className="font-[family-name:var(--font-sora)] text-base font-semibold tracking-tight"
+          style={{ color: "var(--ink)" }}
         >
           {site.brand}
-        </a>
-        <ul className="hidden items-center gap-8 md:flex">
-          {links.map((link) => (
-            <li key={link.href}>
+          <span style={{ color: "var(--pink)" }}>.</span>
+        </Link>
+
+        <ul className="hidden items-center gap-7 md:flex">
+          {links.map((l) => (
+            <li key={l.href}>
               <a
-                href={link.href}
-                className="font-[family-name:var(--font-jetbrains)] text-[11px] uppercase tracking-[0.16em] text-ink-soft/80 transition-colors hover:text-signal"
+                href={l.href}
+                className="font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.14em] transition-colors"
+                style={{ color: "var(--muted)" }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.color = "var(--pink)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.color = "var(--muted)";
+                }}
               >
-                {link.label}
+                {l.label}
               </a>
             </li>
           ))}
         </ul>
-        <a
-          href={site.resume}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="font-[family-name:var(--font-jetbrains)] text-[11px] uppercase tracking-[0.16em] text-signal transition-colors hover:text-signal-deep"
-        >
-          Resume
-        </a>
+
+        <div className="flex items-center gap-3">
+          <button
+            type="button"
+            onClick={toggle}
+            className="rounded-full border px-3 py-1.5 font-[family-name:var(--font-mono)] text-[10px] uppercase tracking-[0.14em]"
+            style={{
+              borderColor: "var(--btn-ghost-border)",
+              color: "var(--ink)",
+              background: "transparent",
+              cursor: "pointer",
+            }}
+            aria-label="Toggle theme"
+          >
+            {theme === "light" ? "Night" : "Light"}
+          </button>
+          <a href={site.resume} target="_blank" rel="noopener noreferrer" className="btn-primary">
+            Resume
+          </a>
+        </div>
       </nav>
     </header>
   );

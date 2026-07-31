@@ -1,21 +1,23 @@
 import type { Metadata } from "next";
-import { JetBrains_Mono, Literata, Syne } from "next/font/google";
+import { DM_Sans, JetBrains_Mono, Sora } from "next/font/google";
+import { Nav } from "@/components/Nav";
+import { ThemeProvider } from "@/components/ThemeProvider";
 import "./globals.css";
 
-const syne = Syne({
-  variable: "--font-syne",
-  subsets: ["latin"],
-  weight: ["500", "600", "700", "800"],
-});
-
-const literata = Literata({
-  variable: "--font-literata",
+const sora = Sora({
+  variable: "--font-sora",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
 });
 
-const jetbrains = JetBrains_Mono({
-  variable: "--font-jetbrains",
+const dm = DM_Sans({
+  variable: "--font-dm",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
+
+const mono = JetBrains_Mono({
+  variable: "--font-mono",
   subsets: ["latin"],
   weight: ["400", "500"],
 });
@@ -23,11 +25,11 @@ const jetbrains = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "Varunika Naini — AI & ML Engineer",
   description:
-    "Portfolio of Varunika Naini — sim-to-real robotics, quantization, LoRA, and generative AI systems. AI & ML Intern at Dheyo AI.",
+    "Cool-girl coder portfolio — food pick-and-place sim-to-real, Oscar + Isaac Sim, GEAK on AMD MI300X, GRPO, quantization. Hire me.",
   openGraph: {
     title: "Varunika Naini — AI & ML Engineer",
     description:
-      "Building the bridge from synthetic worlds to real robots — quantization, LoRA, and sim-to-real pipelines.",
+      "I make robots see food crates, make LLMs run faster, and make AMD kernels stop wasting DRAM.",
     type: "website",
   },
 };
@@ -40,9 +42,16 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${syne.variable} ${literata.variable} ${jetbrains.variable} h-full antialiased`}
+      data-theme="light"
+      className={`${sora.variable} ${dm.variable} ${mono.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col bg-paper text-ink">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <ThemeProvider>
+          <Nav />
+          {children}
+        </ThemeProvider>
+      </body>
     </html>
   );
 }
