@@ -81,14 +81,14 @@ export function Hero() {
         </p>
 
         <div className="animate-rise-3 mt-10 flex flex-wrap gap-3">
-          <a href="#work" className="btn-primary btn-magnetic">
+          <a href="#play" className="btn-primary btn-magnetic">
+            Play a tiny game
+          </a>
+          <a href="#work" className="btn-ghost btn-magnetic">
             See the work
           </a>
           <a href={site.resume} target="_blank" rel="noopener noreferrer" className="btn-ghost btn-magnetic">
             Download resume
-          </a>
-          <a href="#contact" className="btn-ghost btn-magnetic">
-            Let&apos;s talk
           </a>
         </div>
 

@@ -14,109 +14,67 @@ export type Work = {
 
 export const works: Work[] = [
   {
+    slug: "voice-prompt-enhancement",
+    title: "Voice Agent Prompt Enhancement",
+    tag: "Agents · Prompts · LoRA",
+    year: "2026",
+    featured: true,
+    cover: "/images/voice/phone-call.jpg",
+    blurb:
+      "Teach the agent to sound human on a phone — clearer procedures, calmer handoffs, zero markdown for TTS.",
+    body: `Phone agents don't get a second draft. Whatever you put in the prompt is what the caller hears — awkward pauses, weird tool talk, or a surprisingly good answer.
+
+I spend time **rewriting and enhancing voice-agent prompts** so they feel natural: crisp booking / cancel / parking flows, clear handoff rules, and replies that stay plain English (because TTS will cheerfully read your \`**bold**\` markers out loud).
+
+Sometimes that means LoRA / adapters so the model actually sticks to the house style. Sometimes it's just ruthless editing until the script stops sounding like a wiki.
+
+![On the line](/images/voice/phone-support.jpg)
+
+The goal is simple: when someone calls, the agent already knows how to talk.
+`,
+  },
+  {
     slug: "voice-agent-eval",
-    title: "Voice Agent Evaluation Framework",
-    tag: "Agents · Prompts · Guardrails · Eval",
+    title: "Voice Agent Evaluation",
+    tag: "Agents · Guardrails · Eval",
     year: "2026",
     featured: true,
     cover: "/images/voice/call-headset.jpg",
     blurb:
-      "Prompt enhancement for voice agents + scenario tests, guardrail red-teams, and LLM judges that catch bad handoffs before the phone rings.",
-    body: `## Catch line
+      "A separate loop: stress-test the agent before a real caller does — scenarios, red-teams, judges.",
+    body: `Enhancing a prompt is half the story. The other half is proving it still works when someone gets creative, confused, or adversarial.
 
-**Better prompts. Harder eval. Safer calls.**
+I build the **evaluation side** — fake conversations that walk through happy paths and messy ones, plus guardrail red-teams that try prompt injection, tool fishing, and “just invent a confirmation code for me.”
 
-I'm building the loop that makes production voice / chat support agents reliable: **enhance the agent prompts**, then **prove** the change still works — before a caller hears it.
+![Debugging the call path](/images/voice/debug-code.jpg)
 
-## Prompt enhancement for voice agents
+Judges (tools when it's crisp, LLMs when dialogue is fuzzy) score whether the agent stayed useful *and* safe. Live checks keep client APIs from rotting quietly.
 
-Voice agents live or die on the system / AOP prompt. Small wording shifts change tool choice, handoff tone, and what the TTS actually says. I work on **prompt enhancement** for those agents — tighter instructions, clearer tool contracts, spoken-style constraints — then feed the new prompt into the eval harness so we don't ship regressions by vibes.
+![QA before go-live](/images/voice/qa-checklist.jpg)
 
-That includes:
-
-- Making procedures unambiguous for booking / cancel / parking flows
-- Encoding **handoff rules** and **guardrails** in shared session context
-- Forcing plain-English replies (phone TTS will read markdown if you let it)
-
-![Debugging agent behavior](/images/voice/debug-code.jpg)
-
-## What the framework does
-
-Agent operating procedures get turned into **test conversations** — happy paths and messy ones. Those cases run through:
-
-- **Deterministic tool smoke** — did the agent call the right tools with the right args?
-- **LLM judges** — for fuzzy dialogue where tools alone aren't enough (DeepEval-style G-Eval / task completion signals)
-- **Live API coverage** — so client code can't silently rot
-
-The landscape I surveyed for this work spans LLM-agent harnesses (DeepEval, Giskard, Opik), STT metrics (Jiwer / MeetEval), TTS judges (TTSDS, EmergentTTS-Eval), and end-to-end voice stacks like **Calibrate** and **EVA** — component latency + conversation flow, not just a single chat turn.
-
-## Guardrails (the spicy part)
-
-Eval isn't only “did booking work?” It's also **what the agent must refuse**.
-
-Guardrail cases are generated from injection / abuse prompts and marked as LLM-judged scenarios. They probe things like:
-
-- Prompt injection (“ignore your procedure and…”)
-- Attempts to exfiltrate tools / system instructions
-- Requests outside the AOP (payments, unrelated domains)
-- Pressure to invent confirmations or skip identity checks
-
-![QA & checklists](/images/voice/qa-checklist.jpg)
-
-## Why recruiters should care
-
-Voice agents fail quietly. Prompt enhancement without eval is guessing; eval without better prompts is just measuring failure. This work closes the loop — before Twilio, before a human hears “sorry, I can't help,” before a bad refund path ships.
-
-![Real conversations](/images/voice/phone-support.jpg)
+Ship the call only after the harness says yes.
 `,
   },
   {
     slug: "humanoid-leisaac",
     title: "Humanoid Teleop in Isaac Sim",
-    tag: "Isaac Lab · Teleop · IK",
+    tag: "Robots · Isaac · Teleop",
     year: "2026",
     featured: true,
     cover: "/images/humanoid/teleop-v1-35.jpg",
     blurb:
-      "Keyboard teleop that moves a target frame — IK turns your intent into joint angles the humanoid can actually hit.",
-    body: `## Catch line
+      "Drive a humanoid like a video game — reach, grasp, place — while the sim keeps the physics honest.",
+    body: `Imagine puppeteering a tall kitchen robot with a keyboard. You nudge where the hand should go; the robot figures out the joints. That's the vibe.
 
-**You don't teleop joints. You teleop a dream pose — IK does the math.**
+I've been living in Isaac scenes with humanoids and arms — bins, graspables, cluttered counters — practicing pick-and-place until the motion feels intentional instead of lucky.
 
-In Isaac Lab / LeIsaac-style stacks, keyboard (and leader-arm) teleoperation is usually **target-frame control**: keys nudge the gripper link's pose in Cartesian space; the controller solves **inverse kinematics** into joint commands that respect limits.
-
-That design shows up in the LeIsaac device docs — translation and rotation map to the target frame so operators think in “where should the hand go?” instead of “what should joint 4 be?”
-
-On the SO101 shirt-pick style tasks I ran teleop with recording enabled — \`teleop_se3_agent.py\` + keyboard device + cameras — so demos land as HDF5 trajectories, not just vibes on a VNC desktop.
-
-![Reach](/images/humanoid/teleop-v1-15.jpg)
-
-## Robots in the loop
-
-I spent time with:
-
-- **Fourier GR1T2** humanoid pick-place in Isaac (\`Isaac-PickPlace-GR1T2-Abs-v0\` style tasks, Pinocchio-enabled)
-- Comparisons to **Franka / UR10** parallel-jaw arms — fewer DOFs, cleaner IK, different contact stories
-- Scene authoring: bins, graspables, kitchen / warehouse props via manager-based env configs
-
-## Path planning, not button mashing
-
-Teleop is the outer loop; inside it:
-
-1. Command a new EE / wrist pose  
-2. IK → joint targets  
-3. Interpolate a feasible path (avoid singularities, keep the grasp frame stable)  
-4. Approach → close → lift → place  
-
-Watching joint panels while teleoping makes failures obvious: elbow lock, wrist flip, a grasp that looks fine in the camera but is kinematically unreachable.
+![Reach for it](/images/humanoid/teleop-v1-15.jpg)
 
 ![Close the grasp](/images/humanoid/teleop-v1-55.jpg)
 
-![Place](/images/humanoid/teleop-v1-80.jpg)
+![Set it down](/images/humanoid/teleop-v1-80.jpg)
 
-## Kitchen / clutter scenes
-
-Same stack, harder geometry — more clutter, tighter approaches, same IK contract.
+Kitchen clutter is the fun boss fight:
 
 ![Kitchen approach](/images/humanoid/teleop-v2-15.jpg)
 
@@ -135,7 +93,7 @@ Same stack, harder geometry — more clutter, tighter approaches, same IK contra
     featured: true,
     cover: "/images/geak/amd-chip.jpg",
     blurb:
-      "Naïve GEMM wasted 16× DRAM on transpose layouts. GEAK's tiled HIP kernel hit 65× peaks on Instinct MI300X.",
+      "Make matrix multiply on AMD Instinct stop wasting time — tiled HIP kernels that actually fly.",
     mdFile: "geak.md",
   },
   {
@@ -148,9 +106,7 @@ Same stack, harder geometry — more clutter, tighter approaches, same IK contra
     cover: "/images/food/results/biscuits-rgb.jpg",
     blurb:
       "Two product photos + a prompt → RGB, depth, masks, normals, and a physics-ready crate.",
-    body: `## Catch line
-
-_Building simulation datasets used to take weeks. We cut that down to a prompt._
+    body: `_Building simulation datasets used to take weeks. We cut that down to a prompt._
 
 **SynD** takes front/back product photos and a plain-English scene description, then returns annotated robot-training data plus a loadable sim world.
 
@@ -160,7 +116,7 @@ _Building simulation datasets used to take weeks. We cut that down to a prompt._
 
 ## Outputs that matter for grasping
 
-Depth, masks, and normals for the biscuits crate (RGB is on the card cover — not repeated here):
+Depth, masks, and normals for the biscuits crate:
 
 ![Depth](/images/food/results/biscuits-depth.jpg)
 
@@ -178,169 +134,98 @@ Chips packs with wall-lean tilts:
 
 ![Chips normals](/images/food/results/chips-normals.jpg)
 
-## Want more?
-
 Full pipeline notes and media are **available on request**.
 `,
   },
   {
     slug: "quantization-systems",
     title: "Dynamic Quantization",
-    tag: "Inference · LIM · BAQ · Alpha",
+    tag: "Inference · LIM · BAQ",
     year: "2025–26",
     featured: true,
     requestDetails: true,
     cover: "/images/quant/gpqa_pass1_benchmark.jpg",
     externalUrl: "https://huggingface.co/DheyoAI/DeepSeek-R1-Distill-Qwen-1.5B-GGUF",
     blurb:
-      "Layer importance via Alpha, LIM, ZD & BAQ — assign bits where reasoning lives, shrink everywhere else.",
-    body: `## Catch line
+      "Shrink the model without shrinking the brain — smarter layer bit budgets, GGUFs on Hugging Face.",
+    body: `Small models are cute until they forget how to reason. I work on **dynamic quantization** that treats layers differently — protect the ones that carry hard thinking, squeeze the ones that don't.
 
-**Compress the model. Keep the brain.**
+Two ideas I keep coming back to:
 
-Dynamic quantization shouldn't be “one bit-width to rule them all.” I worked on **per-layer** choices so sensitive layers keep precision while others shrink — then shipped compact **GGUF** variants of DeepSeek-R1-Distill-Qwen-1.5B.
+- **LIM** — how much does this layer actually change the signal? Important layers keep more precision.
+- **BAQ** — allocate bits with sensitivity in mind, not a blunt “everything is 4-bit” hammer.
 
-## How layers get scored
+Alpha / WeightWatcher-style scores and a calibration-free cousin (ZD) rounded out the comparison. LIM loved compression; ZD punched up on GPQA; BAQ sat in the balanced middle.
 
-From the Alpha selection write-up I used in this work:
+![Method pages](/images/quant/alpha/p-2.jpg)
 
-- **Alpha (WeightWatcher / RMT)** — fit a power-law to each layer's eigenvalue heavy tail. Small α (≈2–3) means strong learned features; large α looks closer to random. **Alpha v1** picks the quant scheme closest to the original α; **Alpha v2** adds an SNR filter first so noisy layers don't dominate.
-- **LIM (Layer Input Modification)** — importance = how much a layer *transforms* its input (negative cosine similarity of input vs output). Needs a short calibration pass.
-- **ZD (Z-Score Distribution)** — fraction of outlier weights (|z| > 1). Calibration-free and surprisingly strong on hard reasoning.
-- **BAQ (Bit Allocation Quantization)** — importance from quantization-loss sensitivity (Hessian / Fisher-style curvature). Protect steep loss valleys; squash the shallow ones.
+![Accuracy charts](/images/quant/alpha/p-7.jpg)
 
-llama.cpp-style allocators then map high importance → higher-precision schemes and low importance → aggressive low bits.
+![Trade-off heatmaps](/images/quant/alpha/p-8.jpg)
 
-![Alpha / LIM method pages](/images/quant/alpha/p-2.jpg)
-
-![BAQ & selection methodology](/images/quant/alpha/p-3.jpg)
-
-## Results (α_v1 / α_v2 vs LIM / ZD / BAQ)
-
-| Method | Size (GB) | Math 500 | GPQA Diamond | GSM8K |
-|---|---|---|---|---|
-| α_v1 | 1.740 | 79.80 | 31.82 | 79.30 |
-| α_v2 | 1.570 | 79.00 | 28.28 | 81.96 |
-| **LIM** | **1.358** | **81.40** | 28.79 | 81.20 |
-| **ZD** | 1.814 | 79.80 | **37.88** | 81.50 |
-| **BAQ** | 1.748 | 77.80 | 35.86 | 81.20 |
-
-**Takeaway:** LIM wins on compression (+Math/GSM8K), ZD wins on GPQA robustness, BAQ sits in the sensitivity-aware middle. No single metric dominates — hybrid scoring is the next move.
-
-![Accuracy bar charts](/images/quant/alpha/p-7.jpg)
-
-![Δ heatmaps across methods](/images/quant/alpha/p-8.jpg)
-
-![Observations & conclusion](/images/quant/alpha/p-9.jpg)
-
-Extra serving-side plots from the GGUF release:
-
-![Math500](/images/quant/math500_pass1_benchmark.jpg)
+Try the GGUFs: [DheyoAI/DeepSeek-R1-Distill-Qwen-1.5B-GGUF](https://huggingface.co/DheyoAI/DeepSeek-R1-Distill-Qwen-1.5B-GGUF)
 
 ![GSM8K](/images/quant/gsm8k_benchmark.jpg)
 
 ![AIME](/images/quant/aime_cons_64_benchmark_plot.jpg)
 
-## Hosted models
-
-GGUF releases: [DheyoAI/DeepSeek-R1-Distill-Qwen-1.5B-GGUF](https://huggingface.co/DheyoAI/DeepSeek-R1-Distill-Qwen-1.5B-GGUF)
-
-## Want more?
-
-Training recipes and ablations are **available on request**.
+Deeper recipes are **available on request**.
 `,
   },
   {
     slug: "oscar-sim-video",
     title: "OSCAR · Skeleton-Controlled Robot Video",
-    tag: "World Models · Sim-to-Real Video",
+    tag: "World Models · Video",
     year: "2026",
     featured: true,
     requestDetails: true,
     cover: "/images/oscar/result-3.jpg",
     blurb:
-      "Input frame + skeleton_viz control from real joints → OSCAR rgb video that tracks the motion (drop physics still fight you).",
-    body: `## Catch line
+      "Give OSCAR a still + a dancing stick-figure of the arm — get a video that follows the move.",
+    body: `OSCAR is a little magical: show it a robot frame and a **2D skeleton** of the motion you want, and it paints a video that tries to dance along.
 
-**Don't invent the joints. Project them. Then dress the pixels.**
+I ran episodes from my experiment folder — input frame, \`skeleton_viz\` stick figure, then the generated \`rgb\` clip of a Franka chasing a blue cube.
 
-I ran **OSCAR-2B** on a real episode from my Drive dump (\`frame0\` + \`skeleton_viz\` + \`rgb.mp4\`). Inference needs two things:
+![Starting frame](/images/oscar/input-frame0.jpg)
 
-1. An RGB **input frame** of the robot  
-2. A **2D skeleton control video** projected from joint trajectories (Panda angles, gripper openness, camera K / extrinsics)
+![Skeleton control](/images/oscar/skel-2.jpg)
 
-![Input frame0](/images/oscar/input-frame0.jpg)
+![Skeleton on the scene](/images/oscar/overlay-2.jpg)
 
-## skeleton_viz — the control signal
+![Generated mid-move](/images/oscar/result-1.jpg)
 
-\`render_skeleton.py\` turns \`.npz\` joint dumps into a Forge-style 2D stick figure aligned to the same camera. That folder is the control channel OSCAR actually follows — not a pretty overlay for slides.
+![Generated place](/images/oscar/result-2.jpg)
 
-![2D skeleton control](/images/oscar/skel-2.jpg)
+![Generated late](/images/oscar/result-4.jpg)
 
-![Skeleton overlaid on the scene](/images/oscar/overlay-2.jpg)
+![Generated finish](/images/oscar/result-5.jpg)
 
-![Later overlay frame](/images/oscar/overlay-3.jpg)
+It tracks joints beautifully. Objects after a drop? Still chaotic — that's the fun research cliff.
 
-## Generated rgb results
-
-Same skeleton, model-predicted pixels — pick → carry → place on the blue cube episode:
-
-![Result early](/images/oscar/result-1.jpg)
-
-![Result mid](/images/oscar/result-2.jpg)
-
-![Result late](/images/oscar/result-4.jpg)
-
-![Result final](/images/oscar/result-5.jpg)
-
-## What I learned
-
-- Skeleton tracking of robot motion is strong  
-- Simple pickups look decent  
-- **Drop physics after release** are the weak spot  
-- Accurate trajectories must come from a simulator (Isaac), not an LLM  
-- Skeleton render today is Franka Panda + Robotiq 2F-85 — other arms need custom projectors  
-
-**Proposal:** Isaac Sim owns physics-valid motion; OSCAR is a visual realism layer for many backgrounds / assets on the same trajectory.
-
-## Want more?
-
-Experiment notes and the OSCAR proposal write-up are **available on request**.
+More notes **on request**.
 `,
   },
   {
     slug: "cosmos-experiments",
     title: "Cosmos · Isaac Renders to World Video",
-    tag: "World Models · Action JSON",
+    tag: "World Models · Video",
     year: "2026",
     featured: true,
     requestDetails: true,
     cover: "/images/cosmos-results/franka-1.jpg",
     blurb:
-      "Condition Cosmos on Isaac Sim renders + rigid-body prompts — get video and 10D action JSON you can IK-replay.",
-    body: `## Catch line
+      "Start in Isaac, ask Cosmos for a richer video — keep the physics, upgrade the pixels.",
+    body: `Cosmos is a different toy from OSCAR. I condition it on Isaac Sim renders and ask for videos (and action hints) that keep objects **solid** — no melting cubes, please.
 
-**Physics upstream. Pixels downstream.**
+![UR10 A](/images/cosmos-results/ur10-0.jpg)
 
-With **NVIDIA Cosmos** I conditioned on Isaac Sim renders (UR10 and Franka) and prompts that insist objects stay **rigid** — melting cubes were a real failure mode until seeds/prompts were fixed.
+![UR10 B](/images/cosmos-results/ur10-1.jpg)
 
-## Result frames (from experiment videos)
-
-### UR10 pick → bin
-
-![UR10 result A](/images/cosmos-results/ur10-0.jpg)
-
-![UR10 result B](/images/cosmos-results/ur10-1.jpg)
-
-![UR10 result C](/images/cosmos-results/ur10-2.jpg)
-
-### Franka Isaac scene → Cosmos
+![UR10 C](/images/cosmos-results/ur10-2.jpg)
 
 ![Franka A](/images/cosmos-results/franka-0.jpg)
 
 ![Franka C](/images/cosmos-results/franka-2.jpg)
-
-### Additional outputs
 
 ![Output A](/images/cosmos-results/out-0.jpg)
 
@@ -348,68 +233,44 @@ With **NVIDIA Cosmos** I conditioned on Isaac Sim renders (UR10 and Franka) and 
 
 ![Output C](/images/cosmos-results/out-2.jpg)
 
-![Result still](/images/cosmos-results/result-1.jpg)
+![Still](/images/cosmos-results/result-1.jpg)
 
-![Result still 2](/images/cosmos-results/result-2.jpg)
+![Still 2](/images/cosmos-results/result-2.jpg)
 
-## The useful loop
+Recipe that worked for me: build the scene in Isaac first, *then* ask Cosmos to dream on top — not the other way around.
 
-Building a scene *from* Cosmos video alone is hard — initial object poses are unknown. The working recipe:
-
-**Isaac Sim scene → render → Cosmos video + action JSON → RMPFlow IK replay**
-
-Action outputs encode EE pose deltas + gripper (10D for Franka-style embodiments).
-
-## Want more?
-
-Payloads, action dumps, and longer clips are **available on request**.
+More clips **on request**.
 `,
   },
   {
     slug: "synd-realism",
-    title: "Blender Asset Creation for Sim",
-    tag: "3D · Isaac · Assets",
+    title: "Blender Assets for Isaac Sim",
+    tag: "3D · Sim",
     year: "2025–26",
     featured: true,
     requestDetails: true,
     cover: "/images/blender-flow/step-5.jpg",
     blurb:
-      "SAM3D → Blender re-texture & UV → export USD/GLB → light it in Isaac Sim. Packs that robots can actually see.",
-    body: `## Catch line
+      "We build the snack packs and props in Blender, then drop them into Isaac Sim for robot practice.",
+    body: `Robots learn better when the shelf looks like a shelf — not a grey brick with “chips” written on it.
 
-**A snack packet isn't a dataset until the UVs tell the truth.**
+We **create the items in Blender**, get the textures and shapes feeling right, then **bring them into Isaac Sim** so the robot can practice picking in a world that looks familiar.
 
-I built simulation-ready food / pack assets with a three-step pipeline from my Blender asset-creation notes:
+![Mesh start](/images/blender-flow/step-1.jpg)
 
-### 1. 2D → mesh (SAM3D)
+![In Blender](/images/blender-flow/step-2.jpg)
 
-Mask the product photo, generate a GLB mesh.
-
-![SAM3D mesh](/images/blender-flow/step-1.jpg)
-
-### 2. Re-texture in Blender
-
-Import GLB, wipe the bad texture, bind the real PNG, UV unwrap (\`Project from View\`), scale the mesh so the print isn't stretched, preview in Material mode, export USD/GLB.
-
-![Import & shade](/images/blender-flow/step-2.jpg)
-
-![Texture swap](/images/blender-flow/step-3.jpg)
+![Texture pass](/images/blender-flow/step-3.jpg)
 
 ![UV fit](/images/blender-flow/step-4.jpg)
 
-### 3. Drop into Isaac Sim
+![Inside Isaac](/images/blender-flow/step-6.jpg)
 
-Open the USD, tune lighting, confirm the pack reads correctly under sim cameras.
+![Lit for the camera](/images/blender-flow/step-7.jpg)
 
-![In Isaac Sim](/images/blender-flow/step-6.jpg)
+That's the whole vibe: craft in Blender → simulate in Isaac.
 
-![Lit for capture](/images/blender-flow/step-7.jpg)
-
-Those assets feed SynD / pick-place crates — geometry with honest textures beats floating low-fid stand-ins every time.
-
-## Want more?
-
-Step-by-step notes and more exports are **available on request**.
+More exports **on request**.
 `,
   },
 ];
@@ -430,76 +291,69 @@ export const writing: WritingPost[] = [
     title: "Enhancing Text-to-Image Prompts with GRPO",
     venue: "White paper · 2026",
     authors: "Varunika Naini",
-    cover: "/images/grpo/fig-001.jpg",
+    cover: "/images/grpo/paper-00.jpg",
     blurb:
-      "Prompt expanders add scallions you never asked for. GRPO ties expansion to visual constraint checks.",
-    body: `## Overview
+      "You said no scallions. The enhancer added scallions. GRPO teaches it to stop doing that.",
+    body: `You type a simple idea. An enhancer turns it into a fancy prompt. The image looks gorgeous — and quietly breaks your rules (“no scallions,” “exactly four dogs,” “made of ice”).
 
-Text-to-image models love detailed prompts — but automatic enhancers often **break explicit constraints** (negation, exact counts, materials). I built a **GRPO** (Group Relative Policy Optimization) pipeline that scores generated images against a taxonomy of logical / spatial keypoints and trains the enhancer to obey them.
+I built a **GRPO** loop that scores the *image*, not just the prose, and trains the enhancer to obey those constraints.
 
-## How it works
+When the baseline enhancer fails negation:
 
-1. **SFT** a lightweight LM to expand prompts  
-2. Generate images from those prompts  
-3. Extract keypoints from the user concept; a VLM verifies each in the image  
-4. **GRPO** optimizes the policy with a compositional reward (keypoint adherence + fidelity + descriptiveness) and penalties for low correctness  
+![Negation fail A](/images/grpo/paper-01.jpg)
 
-![Method figure](/images/grpo/fig-003.jpg)
+![Negation fail B](/images/grpo/paper-02.jpg)
 
-![Pipeline / taxonomy](/images/grpo/p-02.jpg)
+When attributes stick (everyone in red):
 
-## Qualitative wins
+![Attribute A](/images/grpo/paper-03.jpg)
 
-Examples from the paper — negation, numeracy, shape, materials:
+![Attribute B](/images/grpo/paper-04.jpg)
 
-![Sample grid A](/images/grpo/fig-004.jpg)
+More wins from the Drive set — numeracy, materials, weird shapes:
 
-![Sample grid B](/images/grpo/fig-005.jpg)
+![Grid](/images/grpo/paper-05.jpg)
 
-![Sample grid C](/images/grpo/fig-006.jpg)
+![Sample](/images/grpo/paper-06.jpg)
 
-![Sample grid D](/images/grpo/fig-007.jpg)
+![Sample](/images/grpo/paper-07.jpg)
 
-![More results](/images/grpo/fig-017.jpg)
+![Sample](/images/grpo/paper-08.jpg)
 
-![More results](/images/grpo/fig-019.jpg)
+![Result](/images/grpo/result-00.jpg)
 
-## Full PDF
+![Result](/images/grpo/result-02.jpg)
 
-Available on request.
+![Result](/images/grpo/result-03.jpg)
+
+![Result](/images/grpo/result-05.jpg)
+
+Full PDF **on request**.
 `,
   },
   {
     slug: "lba-net",
     title: "LBA-Net: Boundary-Aware Self-Distillation",
-    venue: "Semantic segmentation research",
+    venue: "BTech report · IIITDM Kurnool",
     authors: "Varunika Naini",
-    cover: "/images/lbanet/p-01.jpg",
+    cover: "/images/lbanet/arch.jpg",
     blurb:
-      "A compact MobileNetV2 encoder–decoder with boundary attention and EMA self-distillation — high mIoU, low FLOPs.",
-    body: `## Overview
+      "A small network that still draws clean medical outlines — sharp edges without a giant model.",
+    body: `Doctors need crisp outlines on X-rays and scopes. Giant models get there — and then refuse to fit on anything practical.
 
-**LBA-Net** targets efficient semantic segmentation with sharp boundaries: a MobileNetV2-style encoder, dual-branch boundary-attentive decoder, and an **EMA teacher–student** scheme that stabilizes training without a heavy external teacher.
+**LBA-Net** is my take on staying tiny while keeping boundaries honest: a light encoder, a decoder that cares about edges, and a teacher that quietly coaches the student.
 
-![Architecture](/images/lbanet/fig-000.jpg)
+![Architecture](/images/lbanet/visual.jpg)
 
-## Highlights (from the study)
+![Qualitative](/images/lbanet/results.jpg)
 
-- **91.86% mIoU** on THRS-RSNA at **13.88M** parameters  
-- ~**10× fewer FLOPs** than Swin-UNet while competing with heavier nets across medical and natural-image benchmarks  
-- Boundary IoU gains from EMA self-distillation vs the unregularized baseline  
+![Comparisons](/images/lbanet/compare.jpg)
 
-![Method figure](/images/lbanet/fig-001.jpg)
+![Paper figure](/images/lbanet/doc-01.jpg)
 
-![Results panel](/images/lbanet/p-05.jpg)
+![Paper figure](/images/lbanet/doc-02.jpg)
 
-![Qualitative](/images/lbanet/fig-002.jpg)
-
-![More results](/images/lbanet/p-06.jpg)
-
-## Full PDF
-
-Available on request.
+Figures from the Overleaf report. Full PDF **on request**.
 `,
   },
   {
@@ -507,34 +361,28 @@ Available on request.
     title: "RDIF: Radiomic-Guided Diffusion for Explainable Segmentation",
     venue: "BTech project · IIITDM Kurnool · 2026",
     authors: "Varunika Naini",
-    cover: "/images/rdif/ch-15.jpg",
+    cover: "/images/rdif/arch.jpg",
     blurb:
-      "Post-hoc XAI that seeds IG CAMs, gates with radiomics, and diffuses so saliency hugs anatomy — not blobs.",
-    body: `## Overview
+      "Make the model point at the anatomy — not a mysterious glow in the corner.",
+    body: `Accuracy without explanation is a hard sell in medicine. **RDIF** is about making the “why” look like anatomy: saliency that hugs structure instead of smearing into blobs.
 
-**RDIF** (Radiomic-Guided Diffusion Framework) bridges localization and structural fidelity for explainable medical segmentation. Integrated Gradient seeds are gated by radiomic texture cues (Gabor, LBP, GLCM) and refined with Perona–Malik anisotropic diffusion so saliency maps align with anatomy.
+![RDIF idea](/images/rdif/pipeline.jpg)
 
-![RDIF CAM architecture](/images/rdif/fig-001.jpg)
+![XAI view](/images/rdif/xai.jpg)
 
-## What the figures show
+![Medical panels](/images/rdif/medical.jpg)
 
-Across medical and natural benchmarks, RDIF CAMs stay tighter to structure than common attribution baselines — with strong pointing-game / faithfulness metrics in the report tables.
+![Epiphysis](/images/rdif/epiphysis.jpg)
 
-![CAM comparisons](/images/rdif/ch-21.jpg)
+![JSRT](/images/rdif/jsrt.jpg)
 
-![Qualitative saliency](/images/rdif/ch-23.jpg)
+![Clinic](/images/rdif/clinic.jpg)
 
-![More visualizations](/images/rdif/ch-26.jpg)
+![Cross-data](/images/rdif/crossdata.jpg)
 
-![Segmentation / XAI panels](/images/rdif/ch-31.jpg)
+![Review](/images/rdif/review.jpg)
 
-![Additional results](/images/rdif/ch-32.jpg)
-
-![Benchmark panels](/images/rdif/ch-33.jpg)
-
-## Full PDF
-
-Available on request.
+Images from the Overleaf report. Full PDF **on request**.
 `,
   },
 ];

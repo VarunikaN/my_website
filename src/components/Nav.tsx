@@ -7,6 +7,7 @@ import { ScrollProgress } from "./ScrollProgress";
 import { useTheme } from "./ThemeProvider";
 
 const links = [
+  { href: "/#play", label: "Play" },
   { href: "/#work", label: "Work" },
   { href: "/#experience", label: "XP" },
   { href: "/#writing", label: "Writing" },
