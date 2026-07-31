@@ -49,7 +49,8 @@ export function Hero() {
           className="animate-rise font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.18em]"
           style={{ color: "var(--accent)" }}
         >
-          Building robots, kernels & agents that don&apos;t flake · based in {site.location}
+          LoRA, voice-agent prompts & robots that don&apos;t flake · based in{" "}
+          {site.location}
         </p>
 
         <h1

@@ -16,29 +16,39 @@ export const works: Work[] = [
   {
     slug: "voice-agent-eval",
     title: "Voice Agent Evaluation Framework",
-    tag: "Agents · Guardrails · Eval · Current",
+    tag: "Agents · Prompts · Guardrails · Eval",
     year: "2026",
     featured: true,
     cover: "/images/voice/call-headset.jpg",
     blurb:
-      "Before the phone rings: scenario tests, guardrail red-teams, and LLM judges that catch bad handoffs and hallucinated success.",
+      "Prompt enhancement for voice agents + scenario tests, guardrail red-teams, and LLM judges that catch bad handoffs before the phone rings.",
     body: `## Catch line
 
-**Ship the call only after the eval says yes.**
+**Better prompts. Harder eval. Safer calls.**
 
-I'm building the QA layer for production voice / chat support agents — the thing that answers: *if we change this procedure, will callers still get a correct, safe outcome?*
+I'm building the loop that makes production voice / chat support agents reliable: **enhance the agent prompts**, then **prove** the change still works — before a caller hears it.
 
 ![Support calls](/images/voice/call-headset.jpg)
 
+## Prompt enhancement for voice agents
+
+Voice agents live or die on the system / AOP prompt. Small wording shifts change tool choice, handoff tone, and what the TTS actually says. I work on **prompt enhancement** for those agents — tighter instructions, clearer tool contracts, spoken-style constraints — then feed the new prompt into the eval harness so we don't ship regressions by vibes.
+
+That includes:
+
+- Making procedures unambiguous for booking / cancel / parking flows
+- Encoding **handoff rules** and **guardrails** in shared session context
+- Forcing plain-English replies (phone TTS will read markdown if you let it)
+
+![Debugging agent behavior](/images/voice/debug-code.jpg)
+
 ## What the framework does
 
-Agent operating procedures (bookings, cancellations, parking help, …) get turned into **test conversations** — happy paths and messy ones. Those cases run through:
+Agent operating procedures get turned into **test conversations** — happy paths and messy ones. Those cases run through:
 
 - **Deterministic tool smoke** — did the agent call the right tools with the right args?
 - **LLM judges** — for fuzzy dialogue where tools alone aren't enough
 - **Live API coverage** — so client code can't silently rot
-
-![Debugging agent behavior](/images/voice/debug-code.jpg)
 
 ## Guardrails (the spicy part)
 
@@ -51,13 +61,11 @@ Guardrail cases are generated from injection / abuse prompts and marked as LLM-j
 - Requests outside the AOP (payments, unrelated domains)
 - Pressure to invent confirmations or skip identity checks
 
-Shared session context encodes handoff rules, **guardrails**, and spoken TTS style so replies stay plain English — because a phone TTS engine will read whatever you emit, markdown and all.
-
 ![QA & checklists](/images/voice/qa-checklist.jpg)
 
 ## Why recruiters should care
 
-Voice agents fail quietly. This work makes regressions loud — before Twilio, before a human hears “sorry, I can't help,” before a bad refund path ships.
+Voice agents fail quietly. Prompt enhancement without eval is guessing; eval without better prompts is just measuring failure. This work closes the loop — before Twilio, before a human hears “sorry, I can't help,” before a bad refund path ships.
 
 ![Real conversations](/images/voice/phone-support.jpg)
 `,

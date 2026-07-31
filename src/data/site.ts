@@ -10,14 +10,15 @@ export const site = {
   resume: "/varunika_resume.pdf",
   photo: "/images/portrait/me.jpg",
   tagline:
-    "I turn prompts into robot-ready worlds, and quantized models into ones that still reason.",
+    "I fine-tune with LoRA, harden voice-agent prompts, and turn scenes into robot-ready worlds.",
   summary:
-    "AI & ML Intern at Dheyo AI · BTech CSE @ IIITDM Kurnool (GPA 8.62). Shipping voice-agent eval, SynD sim-to-real data, OSCAR/Cosmos experiments, and AMD kernels.",
+    "AI & ML Intern at Dheyo AI · BTech CSE @ IIITDM Kurnool (GPA 8.62). Shipping LoRA adapters, voice-agent prompt enhancement + eval, SynD sim-to-real, OSCAR/Cosmos, and AMD kernels.",
   hooks: [
+    "LoRA that actually sticks to the task.",
+    "Voice-agent prompts that survive the caller.",
     "Sim-to-real is my love language.",
     "Two product photos → a physics-ready crate.",
     "Small models. Big reasoning. Less DRAM drama.",
-    "Teleop the joints. Trust the IK.",
     "Catch the bug before the caller does.",
   ],
 };
@@ -28,7 +29,8 @@ export const experience = [
     role: "AI & ML Intern",
     period: "May 2025 — Present",
     highlights: [
-      "Building a voice-agent evaluation framework — scenarios, guardrail red-teams, LLM judges, live coverage.",
+      "Voice-agent prompt enhancement + evaluation — scenario tests, guardrail red-teams, LLM judges, live coverage.",
+      "LoRA / adapter fine-tunes for domain agents and generative pipelines.",
       "SynD: from 2D product photos to physics-aware robot training datasets (RGB, depth, masks, normals).",
       "Dynamic quantization with LIM & BAQ explorations — GGUF models on Hugging Face with strong GPQA/GSM8K.",
       "OSCAR skeleton-controlled video gen and Cosmos Isaac→world-video experiments.",
