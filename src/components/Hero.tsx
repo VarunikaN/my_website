@@ -46,10 +46,10 @@ export function Hero() {
 
       <div className="relative mx-auto flex max-w-6xl flex-col justify-center">
         <p
-          className="animate-rise font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.2em]"
+          className="animate-rise font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.18em]"
           style={{ color: "var(--accent)" }}
         >
-          Hi — {site.role} · {site.location}
+          Building robots, kernels & agents that don&apos;t flake · based in {site.location}
         </p>
 
         <h1

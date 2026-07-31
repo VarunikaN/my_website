@@ -81,6 +81,17 @@ export default async function WorkPage({ params }: Props) {
           <Markdown content={body} />
         </div>
 
+        {work.externalUrl && (
+          <a
+            href={work.externalUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-ghost mt-6"
+          >
+            View on Hugging Face →
+          </a>
+        )}
+
         {work.requestDetails && (
           <div
             className="mt-12 border p-6"
