@@ -14,26 +14,21 @@ export function Contact() {
     >
       <div className="mx-auto max-w-6xl">
         <Reveal>
-          <div className="grid items-center gap-12 md:grid-cols-[0.9fr_1.1fr]">
-            <div className="relative mx-auto w-full max-w-xs">
+          <div className="grid items-center gap-12 md:grid-cols-[auto_1fr]">
+            <div className="mx-auto">
               <div
-                className="relative aspect-[4/5] overflow-hidden border"
-                style={{ borderColor: "var(--line)" }}
+                className="relative h-48 w-48 overflow-hidden rounded-full border-2 md:h-56 md:w-56"
+                style={{ borderColor: "var(--accent)" }}
               >
                 <Image
                   src={site.photo}
-                  alt={`${site.name} photo placeholder`}
+                  alt={site.name}
                   fill
-                  className="object-cover"
-                  sizes="320px"
+                  className="object-cover object-top"
+                  sizes="224px"
+                  priority
                 />
               </div>
-              <p
-                className="mt-3 text-center font-[family-name:var(--font-mono)] text-[10px] uppercase tracking-[0.14em]"
-                style={{ color: "var(--muted)" }}
-              >
-                Photo placeholder — swap me in
-              </p>
             </div>
 
             <div>
@@ -50,15 +45,15 @@ export function Contact() {
                 {site.name}
               </h2>
               <p className="mt-4 max-w-md text-base leading-relaxed" style={{ color: "var(--ink-soft)" }}>
-                Open to ML, robotics, and systems roles. Happy to share deeper project details or PDFs on request.
+                Open to ML, robotics, and systems roles. Deeper project details and PDFs on request.
               </p>
 
               <div className="mt-8 flex flex-wrap gap-3">
-                <a href={`mailto:${site.email}`} className="btn-primary">
+                <a href={`mailto:${site.email}`} className="btn-primary btn-magnetic">
                   <IconMail />
                   Email
                 </a>
-                <a href={phoneHref} className="btn-ghost">
+                <a href={phoneHref} className="btn-ghost btn-magnetic">
                   <IconPhone />
                   Phone
                 </a>
@@ -66,7 +61,7 @@ export function Contact() {
                   href={site.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="btn-ghost"
+                  className="btn-ghost btn-magnetic"
                   aria-label="LinkedIn"
                 >
                   <IconLinkedin />
@@ -76,22 +71,11 @@ export function Contact() {
                   href={site.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="btn-ghost"
+                  className="btn-ghost btn-magnetic"
                   aria-label="GitHub"
                 >
                   <IconGithub />
                   GitHub
-                </a>
-              </div>
-
-              <div className="mt-6 flex flex-wrap gap-4" style={{ color: "var(--muted)" }}>
-                <a href={`mailto:${site.email}`} className="inline-flex items-center gap-2 text-sm hover:text-[var(--accent)]">
-                  <IconMail className="h-3.5 w-3.5" />
-                  {site.email}
-                </a>
-                <a href={phoneHref} className="inline-flex items-center gap-2 text-sm hover:text-[var(--accent)]">
-                  <IconPhone className="h-3.5 w-3.5" />
-                  {site.phone}
                 </a>
               </div>
             </div>

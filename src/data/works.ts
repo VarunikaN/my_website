@@ -20,25 +20,25 @@ export const works: Work[] = [
     featured: true,
     cover: "/images/covers/voice-agent.jpg",
     blurb:
-      "Making sure support agents behave correctly before callers ever hear them — scenarios, automated checks, and live coverage.",
-    body: `## What this is
+      "Catch broken support flows before a human ever dials in — scenarios, automated checks, live coverage.",
+    body: `## The pitch
 
-I'm currently building a system that **tests voice and chat support agents** the way you'd want a QA suite for software — but for conversations.
+Voice agents fail quietly. A wrong tool call, a hallucinated confirmation, a sad-path that never got tested — and the caller only hears “sorry.”
 
-When someone edits how an agent should handle a booking, a cancellation, or a parking question, the framework asks: does it still call the right tools? Does it fail gracefully on bad IDs? Does it refuse to invent a success message?
+I'm building the harness that asks the uncomfortable questions **before** the phone rings.
 
-## What I'm doing day to day
+## What it does
 
-- Turning high-level agent playbooks into **test conversations** (happy paths and messy ones)
-- Running those conversations through **fast automated checks** and optional LLM judges
-- Measuring whether the agent tools and API clients stay fully covered as the product moves
-- Feeding results back so editors know a change is safe before it hits a real phone line
+When someone edits how an agent should handle a booking, cancellation, or parking question, the framework turns that playbook into **test conversations** — happy paths and messy ones — then runs them through fast automated checks and optional LLM judges.
 
-## Why it matters
+## What I'm doing
 
-Voice agents fail quietly. This work is about catching those failures early — so what ships is boringly reliable.
+- Writing scenario generators from agent playbooks
+- Scoring tool use and outputs against gold expectations
+- Keeping live API coverage honest as the product moves
+- Closing the loop so editors know a change is safe to ship
 
-![Voice systems](/images/covers/voice-agent.jpg)
+![Listening systems](/images/covers/voice-agent.jpg)
 `,
   },
   {
@@ -49,43 +49,36 @@ Voice agents fail quietly. This work is about catching those failures early — 
     featured: true,
     cover: "/images/humanoid/teleop-v1-35.jpg",
     blurb:
-      "Authoring pick-place scenes, solving IK for GR1T2 joints, and teleoperating reach-to-grasp trajectories.",
-    body: `## The setup
+      "Author the scene. Solve the joints. Teleop the grasp. Path planning for GR1T2 that respects real kinematics.",
+    body: `## Catch line
 
-I worked with **Fourier GR1T2** in **Isaac Sim / Isaac Lab** — building pick-and-place environments, wiring the humanoid into tasks, and driving it through **keyboard teleoperation** with Pinocchio-backed kinematics.
+**Robots don't move in pixels — they move in joint space.**
 
-## Environment creation
+I wired Fourier **GR1T2** into Isaac Sim / Isaac Lab, authored pick-place worlds, and drove reach-to-grasp with keyboard teleop on Pinocchio-backed IK.
 
-Scenes were authored as Isaac Lab tasks:
+## Environment → IK → path
 
-- Spawn the humanoid, bins / containers, and graspable objects from env configs
-- Inspect and debug the stage before teleop
-- Add new objects through manager-based pick-place configs
-- Enable **Pinocchio** so IK / FK stay consistent with the articulated model
+- Spawn humanoid, bins, and graspables from manager-based configs
+- Map wrist poses into joint targets without blowing limits or singularities
+- Interpolate feasible trajectories: approach, align, close, lift, place
 
-## Inverse kinematics & joint motion
+Frames from the teleop sessions:
 
-Teleop maps desired hand poses into **joint targets** through inverse kinematics — respecting limits, avoiding singularities, and keeping the grasp frame stable on approach.
+![Approach](/images/humanoid/teleop-v1-15.jpg)
 
-## Path planning & teleoperation
+![Reach](/images/humanoid/teleop-v1-35.jpg)
 
-Keyboard teleop was the outer loop: move toward the target, let the controller **plan a feasible joint path**, approach, grasp, lift, place — and compare that to parallel-jaw arms for sim-to-real intuition.
+![Grasp](/images/humanoid/teleop-v1-55.jpg)
 
-![Teleop — approach](/images/humanoid/teleop-v1-15.jpg)
+![Place](/images/humanoid/teleop-v1-80.jpg)
 
-![Teleop — reach](/images/humanoid/teleop-v1-35.jpg)
+![Kitchen approach](/images/humanoid/teleop-v2-15.jpg)
 
-![Teleop — grasp](/images/humanoid/teleop-v1-55.jpg)
+![Kitchen mid-path](/images/humanoid/teleop-v2-35.jpg)
 
-![Teleop — place](/images/humanoid/teleop-v1-80.jpg)
+![Kitchen grasp](/images/humanoid/teleop-v2-55.jpg)
 
-![Kitchen — approach](/images/humanoid/teleop-v2-15.jpg)
-
-![Kitchen — mid path](/images/humanoid/teleop-v2-35.jpg)
-
-![Kitchen — grasp](/images/humanoid/teleop-v2-55.jpg)
-
-![Kitchen — retract](/images/humanoid/teleop-v2-80.jpg)
+![Kitchen retract](/images/humanoid/teleop-v2-80.jpg)
 `,
   },
   {
@@ -96,124 +89,218 @@ Keyboard teleop was the outer loop: move toward the target, let the controller *
     featured: true,
     cover: "/images/covers/gpu-silicon.jpg",
     blurb:
-      "Multi-agent GEMM optimization on AMD Instinct MI300X — up to 65× on transpose layouts, 5.24× geomean.",
+      "When transpose layouts waste 16× DRAM, rewrite the kernel — 65× peaks, 5.24× geomean on MI300X.",
     mdFile: "geak.md",
   },
   {
     slug: "abb-food-pipeline",
-    title: "Food Pick-and-Place · Sim-to-Real",
+    title: "SynD · From 2D Photos to Robot Data",
     tag: "Robotics · Synthetic Data",
     year: "2025–26",
     featured: true,
     requestDetails: true,
-    cover: "/images/covers/food-robot.jpg",
+    cover: "/images/food/results/biscuits-rgb.jpg",
     blurb:
-      "End-to-end synthetic data for robotic food picking — layouts, photoreal crates, depth, masks, and priority picks.",
-    body: `## The story
+      "Building simulation datasets used to take weeks. SynD cuts that down to a prompt — RGB, depth, masks, normals, live sim.",
+    body: `## Catch line
 
-Robots that pick food packs from crates need vision that understands **where each packet is**, how deep it sits, and which one to grab first. Collecting that by hand is slow.
+_Building simulation datasets used to take weeks of manual work. We cut that down to a prompt._
 
-I helped build a **sim-to-real pipeline** that goes from scene layouts to photoreal crate images to depth and instance masks — including a signal for the robot’s **priority pick**.
+You have a product. You want a robot to pick it up. Before that robot can learn anything, someone has to build the dataset: thousands of annotated images — every angle, every orientation, every realistic scene.
 
-## What I owned (high level)
+**SynD** flips that. Give it **two reference photos** and a plain-English scene description. It returns RGB renders, depth maps, instance masks, and surface normals — plus a physics-ready environment for simulators like Isaac Sim.
 
-- Turning scene configs into physics-aware placements
-- Generating training imagery and realism passes for packs in crates
-- Depth and segmentation so each item is separable for grasping
-- Closing the loop toward robot simulation
+## What you bring
 
-![Food robotics](/images/covers/food-robot.jpg)
+Two faces of the product (front / back) and a prompt like:
 
-![Pack assets](/images/food/toprika_chips.jpg)
+> Drop 25 objects randomly into the crate… objects near the centre should lie flat…
 
-## Want the deep dive?
+![Reference front](/images/food/results/ref-front.jpg)
 
-Internal media, metrics, and architecture notes are **available on request** for recruiters and collaborators.
-`,
-  },
-  {
-    slug: "synd-realism",
-    title: "Synthetic Assets & Realism Generation",
-    tag: "3D · Generative",
-    year: "2025–26",
-    featured: true,
-    requestDetails: true,
-    cover: "/images/covers/synth-3d.jpg",
-    blurb:
-      "Blender corpora and generative realism so simulation assets look camera-ready without endless manual photoshoots.",
-    body: `## The story
+![Reference back](/images/food/results/ref-back.jpg)
 
-Simulation loves clean geometry. Robots need images that look like the real world. I worked on the bridge: **3D assets → generative realism → training-ready frames**.
+## What you get
 
-## What I did
+The four annotations perception and 6D pose actually need:
 
-- Built and textured food / pack assets in Blender
-- Ran realism passes so synthetic renders read as photographs
-- Fed those frames into downstream LoRA and layout workflows
+**RGB** — photoreal crates with natural stacking  
+**Depth** — per-pixel depth that resolves walls and packs  
+**Masks** — clean instances for graspable objects  
+**Normals** — approach angles for each visible face
 
-![Synthetic 3D](/images/covers/synth-3d.jpg)
+### ParVida biscuits — dense layout
 
-![Blender work](/images/blender/asset-1.jpg)
+![Biscuits RGB](/images/food/results/biscuits-rgb.jpg)
 
-## Want the deep dive?
+![Biscuits depth](/images/food/results/biscuits-depth.jpg)
 
-Pipelines, prompts, and sample dumps are **available on request**.
+![Biscuits masks](/images/food/results/biscuits-mask.jpg)
+
+![Biscuits normals](/images/food/results/biscuits-normals.jpg)
+
+### Toprika chips — wall lean
+
+![Chips RGB](/images/food/results/chips-rgb.jpg)
+
+![Chips depth](/images/food/results/chips-depth.jpg)
+
+![Chips masks](/images/food/results/chips-mask.jpg)
+
+![Chips normals](/images/food/results/chips-normals.jpg)
+
+## Not just a dataset — a live sim
+
+The same run that paints the crate injects poses into the physics engine. No separate placement step. Prompt → annotated data → interactive world.
+
+## Want more?
+
+Full write-up media, prompts, and pipeline notes are **available on request**.
 `,
   },
   {
     slug: "quantization-systems",
-    title: "Dynamic Quantization & Fast Inference",
-    tag: "Inference · Systems",
+    title: "Dheyo Dynamic Quantization",
+    tag: "Inference · Reasoning Models",
     year: "2025–26",
     featured: true,
     requestDetails: true,
-    cover: "/images/covers/quant.jpg",
+    cover: "/images/quant/gpqa_pass1_benchmark.jpg",
     blurb:
-      "Smarter per-layer quantization and CUDA/Numba kernels so quantized models stay accurate and actually run fast.",
-    body: `## The story
+      "Smaller DeepSeek-R1 distill GGUFs that still reason — Dheyo baseline hits 31.8% GPQA vs Unsloth Q8's 18.2%.",
+    body: `## Catch line
 
-Quantization is easy to claim and hard to ship. I worked on **choosing formats layer by layer** and rewriting the kernels that actually move tokens.
+**Compress the model. Keep the brain.**
 
-## What I focused on
+I worked on **Dheyo dynamic quantization** for \`DeepSeek-R1-Distill-Qwen-1.5B\` — shipping GGUF variants on Hugging Face that sit in the accuracy–size sweet spot.
 
-- Dynamic schemas that beat naive one-size-fits-all quantization on quality benchmarks
-- CUDA and Numba paths that make quantized inference practical
-- Benchmarking so “faster” and “still correct” are both true
+## The cast
 
-![Systems work](/images/covers/quant.jpg)
+| Model | GPQA Diamond | Math500 | Size |
+|---|---|---|---|
+| Full BF16 DeepSeek | 33.8% | 83.9% | 3.39 GB |
+| **Dheyo baseline** | **31.82%** | 79.8% | 1.74 GB |
+| **Dheyo pct5** | 28.28% | 80.2% | 1.57 GB |
+| Unsloth Q8_0 | 18.19% | 81.4% | 1.89 GB |
+| Unsloth Q5_K_M | 19.7% | 76.8% | 1.29 GB |
 
-## Want the deep dive?
+Dheyo baseline posts the **highest GSM8K (78.92%)** among compared variants and crushes Unsloth Q8 on factual GPQA despite being smaller.
 
-Methods, numbers, and artifacts are **available on request**.
+![GPQA vs size](/images/quant/gpqa_pass1_benchmark.jpg)
+
+![Math500 vs size](/images/quant/math500_pass1_benchmark.jpg)
+
+![GSM8K](/images/quant/gsm8k_benchmark.jpg)
+
+![AIME cons@64](/images/quant/aime_cons_64_benchmark_plot.jpg)
+
+## Why it matters
+
+Quantization that only wins on size is a party trick. These runs show you can keep **reasoning benchmarks** alive while cutting memory nearly in half.
+
+Models live on Hugging Face under **DheyoAI/DeepSeek-R1-Distill-Qwen-1.5B-GGUF**.
+
+## Want more?
+
+Training recipes and deeper ablations are **available on request**.
 `,
   },
   {
-    slug: "scenesmith-cosmos-oscar",
-    title: "Worlds, Scenes & Oscar Simulation",
-    tag: "Simulation · Environment Gen",
+    slug: "oscar-cosmos",
+    title: "OSCAR & Cosmos · Sim Video Experiments",
+    tag: "World Models · Isaac Sim",
+    year: "2026",
+    featured: true,
+    requestDetails: true,
+    cover: "/images/oscar/frame-2.jpg",
+    blurb:
+      "Skeleton-controlled robot video with OSCAR, then Cosmos world-gen from Isaac Sim renders — physics first, pixels second.",
+    body: `## Catch line
+
+**Don't fake the joints. Fake the camera.**
+
+I ran experiments on **OSCAR-2B** and **NVIDIA Cosmos** to see how far world models can dress up *physically valid* robot motion without inventing impossible physics.
+
+## OSCAR — skeleton in, video out
+
+OSCAR needs two things at inference:
+
+1. An **input frame** of the robot
+2. A **2D skeleton control video** of the motion
+
+The skeleton pipeline projects real joint trajectories (Panda angles, gripper openness, camera intrinsics/extrinsics) into a Forge-style 2D skeleton. Then OSCAR follows that control across backgrounds — bun pickups, conveyor belts, kitchen cuts, mesh bins.
+
+![OSCAR output frame](/images/oscar/frame-1.jpg)
+
+![OSCAR mid action](/images/oscar/frame-2.jpg)
+
+![OSCAR place](/images/oscar/frame-3.jpg)
+
+### What worked
+
+- Joint / skeleton tracking stays faithful
+- Simple pickups (paper, chips, bun) look decent
+
+### What broke
+
+- **Drop physics** after release are often wrong
+- Skeleton gen today is Panda + Robotiq — other robots need custom renderers
+- LLMs can't invent accurate joint trajectories; kinematics must come from a simulator
+
+### My proposal
+
+Use **Isaac Sim** for physically valid motion. Use OSCAR as a **visual realism layer** on top — same trajectory, many lightings / assets / backgrounds. Not a physics replacement. A sim-to-real video amplifier.
+
+## Cosmos — Isaac render → world video + actions
+
+With Cosmos I conditioned on Isaac Sim renders (UR10 and Franka scenes) plus carefully worded prompts that insist cubes stay **rigid** (melting cubes were a real failure mode).
+
+Outputs: photoreal-ish videos **and** action JSON (10D EE pose + gripper for Franka) that can be replayed with IK (RMPFlow) back in sim.
+
+![UR10 Cosmos conditioning](/images/cosmos/ur10-input.jpg)
+
+![Franka Isaac scene](/images/cosmos/franka-input.jpg)
+
+### Lesson
+
+Building a scene *from* Cosmos video alone is hard — object poses are unknown. The winning loop was:
+
+**Isaac Sim scene → render → Cosmos video + action JSON → IK replay**
+
+Physics stays upstream. Generation stays downstream.
+
+## Want more?
+
+Experiment notes, videos, and the OSCAR proposal PDF are **available on request**.
+`,
+  },
+  {
+    slug: "synd-realism",
+    title: "Asset Realism & Pack Generation",
+    tag: "3D · Generative",
     year: "2025–26",
     featured: true,
     requestDetails: true,
-    cover: "/images/covers/world-gen.jpg",
+    cover: "/images/food/toprika_chips.jpg",
     blurb:
-      "Environment generation and Isaac Sim / Oscar runs that feed richer worlds into robot and vision pipelines.",
-    body: `## The story
+      "Blender packs and generative realism so synthetic crates look camera-ready — the visual half of SynD.",
+    body: `## Catch line
 
-Policies and vision models need places to live. I worked on **building those places** — SceneSmith-style environment generation, Cosmos experiments, and Oscar + Isaac Sim manipulation runs.
+**Simulators eat geometry. Robots eat pixels.**
 
-## What that looked like
+I built and textured food packs, then ran realism passes so Blender renders read as photographs before they enter the SynD / pick-place stack.
 
-- Assembling scenes instead of hand-authoring every shelf and crate
-- Exploring world-model style generation for downstream data
-- Running Oscar demos and Isaac pick-place baselines in simulation
+![Toprika pack](/images/food/toprika_chips.jpg)
 
-![World generation](/images/covers/world-gen.jpg)
+![Container reference](/images/food/container.jpg)
 
-![Simulation](/images/covers/sim-robot.jpg)
+![Blender asset](/images/blender/asset-1.jpg)
 
-## Want the deep dive?
+![Asset detail](/images/blender/asset-3.jpg)
 
-Experiment notes and media are **available on request**.
+## Want more?
+
+Asset pipelines and sample dumps are **available on request**.
 `,
   },
 ];
@@ -236,22 +323,16 @@ export const writing: WritingPost[] = [
     authors: "Varunika Naini, Aakash Varma Nadimpalli",
     cover: "/images/covers/prompt-gen.jpg",
     blurb:
-      "Constraint-aware prompt enhancement with reinforcement learning — stronger negation, counts, and composition.",
+      "When prompt expanders add scallions you never asked for — GRPO teaches constraints to stick.",
     body: `## Overview
 
 Text-to-image models reward verbose prompts, but expanders often **break explicit constraints**. This work frames prompt enhancement as a **GRPO** policy trained with structured visual feedback.
-
-## Idea in brief
-
-- Expand prompts with an RL policy instead of pure SFT
-- Score generations against logical / spatial key points
-- Optimize for constraint adherence, not just aesthetic detail
 
 ![Generative imagery](/images/covers/prompt-gen.jpg)
 
 ## Outcome
 
-Output coherence rose about **70%** vs untuned baselines in our internal evals.
+Output coherence rose about **70%** vs untuned baselines.
 
 ## Full PDF
 
@@ -265,10 +346,10 @@ Available on request.
     authors: "Varunika Naini et al.",
     cover: "/images/covers/medical-vision.jpg",
     blurb:
-      "Compact segmentation with a dual-branch boundary decoder and EMA self-distillation — strong mIoU at low FLOPs.",
+      "Tiny encoder. Sharp boundaries. 91.86% mIoU without dragging Swin-UNet's FLOPs.",
     body: `## Overview
 
-**LBA-Net** is a compact encoder–decoder with a boundary-attentive decoder and EMA self-distillation for sharp medical and natural-image segmentation.
+**LBA-Net** is a compact encoder–decoder with a boundary-attentive decoder and EMA self-distillation.
 
 ![Medical vision](/images/covers/medical-vision.jpg)
 
@@ -289,17 +370,12 @@ Available on request.
     authors: "Varunika Naini, Ganesh Mani Kumar Ananthaneni",
     cover: "/images/covers/explain-ai.jpg",
     blurb:
-      "Post-hoc XAI that fuses Integrated Gradient CAMs with radiomic texture gates via anisotropic diffusion.",
+      "Saliency that hugs anatomy — radiomics guide the diffusion so explanations stop blobbing.",
     body: `## Overview
 
-**RDIF** makes segmentation explanations hug anatomy — radiomic texture cues guide diffusion of saliency maps so they stay clinically meaningful.
+**RDIF** fuses Integrated Gradient seeds with radiomic texture gates and anisotropic diffusion.
 
 ![Explainable AI](/images/covers/explain-ai.jpg)
-
-## Highlights
-
-- Large gains vs LayerCAM on clinic benchmarks
-- Strong pointing-game alignment with ground-truth structure
 
 ## Full PDF
 

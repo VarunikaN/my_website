@@ -21,7 +21,7 @@ export function WorkGrid() {
             Builds that move the needle
           </h2>
           <p className="mt-4 max-w-xl text-base leading-relaxed" style={{ color: "var(--ink-soft)" }}>
-            From voice-agent eval to humanoids, kernels, and sim-to-real systems — click in for the story.
+            Catchy stories, real frames — from SynD crates to OSCAR skeletons to MI300X kernels.
           </p>
         </Reveal>
 
