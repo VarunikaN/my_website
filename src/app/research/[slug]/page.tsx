@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Markdown } from "@/components/Markdown";
@@ -55,6 +56,15 @@ export default async function WritingPage({ params }: Props) {
         <p className="mt-4 text-lg leading-relaxed" style={{ color: "var(--ink-soft)" }}>
           {post.blurb}
         </p>
+
+        {post.cover && (
+          <div
+            className="relative mt-10 aspect-[16/9] overflow-hidden border"
+            style={{ borderColor: "var(--line)" }}
+          >
+            <Image src={post.cover} alt="" fill className="object-cover" sizes="768px" priority />
+          </div>
+        )}
 
         <div className="mt-12">
           <Markdown content={post.body} />
