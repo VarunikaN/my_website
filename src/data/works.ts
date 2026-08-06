@@ -338,22 +338,35 @@ Full PDF **on request**.
     authors: "Varunika Naini",
     cover: "/images/lbanet/arch.jpg",
     blurb:
-      "A small network that still draws clean medical outlines — sharp edges without a giant model.",
-    body: `Doctors need crisp outlines on X-rays and scopes. Giant models get there — and then refuse to fit on anything practical.
+      "Boundary-aware segmentation that stays lightweight: sharper medical contours without a heavyweight model.",
+    body: `Medical segmentation has a practical tension: the fine contours clinicians care about are often the first detail a compact model loses. **LBA-Net** was built to make that trade-off less severe.
 
-**LBA-Net** is my take on staying tiny while keeping boundaries honest: a light encoder, a decoder that cares about edges, and a teacher that quietly coaches the student.
+## What we aimed to do
 
-![Architecture](/images/lbanet/visual.jpg)
+Build a segmentation system that is small enough to be practical, but reliable enough to preserve the delicate boundaries that matter in medical imagery. The goal was not to make the largest model; it was to improve structural precision without turning inference into a deployment problem.
 
-![Qualitative](/images/lbanet/results.jpg)
+At a high level, LBA-Net combines a lightweight visual backbone with boundary-aware reconstruction and a self-teaching training signal. The diagram below shows the student-teacher setup without exposing the full implementation recipe.
 
-![Comparisons](/images/lbanet/compare.jpg)
+![LBA-Net student-teacher architecture](/images/lbanet/arch.jpg)
 
-![Paper figure](/images/lbanet/doc-01.jpg)
+## Results
 
-![Paper figure](/images/lbanet/doc-02.jpg)
+On the THRS-RSNA epiphysis benchmark, LBA-Net reached **91.86% mIoU** and **90.51% mDice** with a **13.88M-parameter** model. In the reported comparison, it delivered the strongest segmentation score among the evaluated methods while maintaining a practical efficiency profile.
 
-Figures from the Overleaf report. Full PDF **on request**.
+The qualitative results tell the same story: the model keeps small anatomical regions and object contours more coherent instead of smoothing them away.
+
+![Qualitative LBA-Net segmentation results](/images/lbanet/visual.jpg)
+
+Across the broader evaluation, the work tested whether this balance held beyond a single setting: medical images with subtle boundaries as well as natural-scene segmentation benchmarks. The result was a consistent case for a lighter model that prioritizes clean structure, not just pixel accuracy.
+
+## Conclusion
+
+LBA-Net is a step toward segmentation models that are easier to deploy without giving up the boundaries that make predictions useful. The public release shares the project structure and core logic while keeping operational training recipes and deployment settings private.
+
+Code: [LBA-Net on GitHub](https://github.com/VarunikaN/LBANet)
+
+> **Patent notice.** LBA-Net and associated methods are patent-pending. The public repository is provided for research and evaluation; commercial use, implementation, or derivative work requires prior written permission.
+
 `,
   },
   {
