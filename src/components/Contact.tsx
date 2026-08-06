@@ -2,6 +2,7 @@ import Image from "next/image";
 import { IconGithub, IconLinkedin, IconMail, IconPhone } from "@/components/Icons";
 import { Reveal } from "@/components/Reveal";
 import { site } from "@/data/site";
+import portrait from "../../varunika.jpeg";
 
 export function Contact() {
   const phoneHref = `tel:${site.phone.replace(/\s+/g, "")}`;
@@ -21,7 +22,7 @@ export function Contact() {
                 style={{ borderColor: "var(--accent)" }}
               >
                 <Image
-                  src={site.photo}
+                  src={portrait}
                   alt={site.name}
                   fill
                   className="object-cover object-top"
@@ -45,7 +46,7 @@ export function Contact() {
                 {site.name}
               </h2>
               <p className="mt-4 max-w-md text-base leading-relaxed" style={{ color: "var(--ink-soft)" }}>
-                Open to ML, robotics, and systems roles. Deeper project details and PDFs on request.
+                Interested in collaborating or discussing the work? Get in touch.
               </p>
 
               <div className="mt-8 flex flex-wrap gap-3">
@@ -88,9 +89,6 @@ export function Contact() {
         >
           <p className="font-[family-name:var(--font-mono)] text-[10px] uppercase tracking-[0.14em]">
             © {new Date().getFullYear()} {site.name}
-          </p>
-          <p className="font-[family-name:var(--font-mono)] text-[10px] uppercase tracking-[0.14em]">
-            {site.location}
           </p>
         </footer>
       </div>

@@ -1,85 +1,35 @@
-import Image from "next/image";
 import Link from "next/link";
 import { Reveal } from "@/components/Reveal";
+import { site } from "@/data/site";
 import { works } from "@/data/works";
 
-export function WorkGrid() {
-  return (
-    <section id="work" className="px-5 py-20 md:px-10 md:py-28">
-      <div className="mx-auto max-w-6xl">
-        <Reveal>
-          <p
-            className="font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.2em]"
-            style={{ color: "var(--accent)" }}
-          >
-            Portfolio
-          </p>
-          <h2
-            className="mt-3 font-[family-name:var(--font-sora)] text-4xl font-bold tracking-tight md:text-5xl"
-            style={{ color: "var(--ink)" }}
-          >
-            Builds that move the needle
-          </h2>
-          <p className="mt-4 max-w-xl text-base leading-relaxed" style={{ color: "var(--ink-soft)" }}>
-            Catchy stories, real frames — from SynD crates to OSCAR skeletons to MI300X kernels.
-          </p>
-        </Reveal>
+function ProjectCard({ work }: { work: (typeof works)[number] }) {
+  return <article className="card-lift flex h-full flex-col border p-6 md:p-7" style={{ borderColor: "var(--line)", background: "var(--card)" }}>
+    <p className="font-[family-name:var(--font-mono)] text-[10px] uppercase tracking-[0.15em] text-[var(--signal)]">{work.category}</p>
+    <h3 className="mt-4 font-[family-name:var(--font-sora)] text-2xl font-semibold tracking-tight text-[var(--ink)]">{work.title}</h3>
+    <p className="mt-3 leading-relaxed text-[var(--ink-soft)]">{work.summary}</p>
+    {work.metric && <p className="mt-5 font-[family-name:var(--font-mono)] text-xs leading-relaxed text-[var(--accent)]">{work.metric}</p>}
+    <div className="mt-auto flex flex-wrap gap-4 pt-7 font-[family-name:var(--font-mono)] text-[10px] uppercase tracking-[0.13em]">
+      {work.confidential ? <a className="text-[var(--accent)]" href={`mailto:${site.email}?subject=Request%20details%3A%20${encodeURIComponent(work.title)}`}>Request details ↗</a> : <>
+        <Link href={`/work/${work.slug}`} className="text-[var(--accent)]">Case study →</Link>
+        <a href={work.githubUrl} target="_blank" rel="noreferrer" className="text-[var(--muted)] hover:text-[var(--ink)]">GitHub ↗</a>
+      </>}
+    </div>
+  </article>;
+}
 
-        <div className="mt-12 grid gap-6 sm:grid-cols-2">
-          {works.map((w, i) => (
-            <Reveal key={w.slug} delay={i * 60}>
-              <Link
-                href={`/work/${w.slug}`}
-                className="group card-lift block overflow-hidden border"
-                style={{ borderColor: "var(--line)", background: "var(--card)" }}
-              >
-                {w.cover && (
-                  <div className="relative aspect-[16/10] overflow-hidden">
-                    <Image
-                      src={w.cover}
-                      alt=""
-                      fill
-                      className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
-                      sizes="(max-width:768px) 100vw, 50vw"
-                    />
-                  </div>
-                )}
-                <div className="p-5 md:p-6">
-                  <div className="flex items-center justify-between gap-3">
-                    <p
-                      className="font-[family-name:var(--font-mono)] text-[10px] uppercase tracking-[0.14em]"
-                      style={{ color: "var(--signal)" }}
-                    >
-                      {w.tag}
-                    </p>
-                    <p
-                      className="font-[family-name:var(--font-mono)] text-[10px]"
-                      style={{ color: "var(--muted)" }}
-                    >
-                      {w.year}
-                    </p>
-                  </div>
-                  <h3
-                    className="mt-3 font-[family-name:var(--font-sora)] text-xl font-semibold md:text-2xl"
-                    style={{ color: "var(--ink)" }}
-                  >
-                    {w.title}
-                  </h3>
-                  <p className="mt-2 text-sm leading-relaxed" style={{ color: "var(--ink-soft)" }}>
-                    {w.blurb}
-                  </p>
-                  <p
-                    className="mt-4 font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.14em]"
-                    style={{ color: "var(--accent)" }}
-                  >
-                    {w.requestDetails ? "Overview →" : "Read →"}
-                  </p>
-                </div>
-              </Link>
-            </Reveal>
-          ))}
-        </div>
+export function WorkGrid() {
+  const personal = works.filter((work) => !work.confidential);
+  const company = works.filter((work) => work.confidential);
+  return <>
+    <section id="projects" className="px-5 py-20 md:px-10 md:py-28">
+      <div className="mx-auto max-w-6xl">
+        <Reveal><p className="font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.2em] text-[var(--accent)]">Selected projects</p><h2 className="mt-3 font-[family-name:var(--font-sora)] text-4xl font-bold tracking-tight text-[var(--ink)] md:text-5xl">Ideas built carefully. Results made visible.</h2></Reveal>
+        <div className="mt-12 grid gap-5 md:grid-cols-2">{personal.map((work, index) => <Reveal key={work.slug} delay={index * 60}><ProjectCard work={work} /></Reveal>)}</div>
       </div>
     </section>
-  );
+    <section id="company-work" className="border-y bg-[var(--bg-2)] px-5 py-20 md:px-10 md:py-28" style={{ borderColor: "var(--line)" }}>
+      <div className="mx-auto max-w-6xl"><Reveal><p className="font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.2em] text-[var(--accent)]">Company work</p><h2 className="mt-3 font-[family-name:var(--font-sora)] text-4xl font-bold tracking-tight text-[var(--ink)] md:text-5xl">Work that stays appropriately private.</h2><p className="mt-4 max-w-2xl leading-relaxed text-[var(--ink-soft)]">A concise view of areas of contribution. Context and detail are available on request.</p></Reveal><div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">{company.map((work, index) => <Reveal key={work.slug} delay={index * 50}><ProjectCard work={work} /></Reveal>)}</div></div>
+    </section>
+  </>;
 }

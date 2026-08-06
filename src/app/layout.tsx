@@ -23,13 +23,11 @@ const mono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Varunika Naini — AI & ML Engineer",
-  description:
-    "Cool-girl coder portfolio — food pick-and-place sim-to-real, Oscar + Isaac Sim, GEAK on AMD MI300X, GRPO, quantization. Hire me.",
+  title: "Varunika Naini | AI and ML Portfolio",
+  description: "Selected AI, ML, retrieval, forecasting, and computer vision projects by Varunika Naini.",
   openGraph: {
-    title: "Varunika Naini — AI & ML Engineer",
-    description:
-      "I make robots see food crates, make LLMs run faster, and make AMD kernels stop wasting DRAM.",
+    title: "Varunika Naini | AI and ML Portfolio",
+    description: "Selected AI, ML, retrieval, forecasting, and computer vision projects.",
     type: "website",
   },
 };

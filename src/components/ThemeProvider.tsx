@@ -22,22 +22,10 @@ export function useTheme() {
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setTheme] = useState<Theme>("light");
-  const [ready, setReady] = useState(false);
-
   useEffect(() => {
-    const stored = window.localStorage.getItem("vn-theme") as Theme | null;
-    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    const next = stored ?? (prefersDark ? "night" : "light");
-    setTheme(next);
-    document.documentElement.setAttribute("data-theme", next);
-    setReady(true);
-  }, []);
-
-  useEffect(() => {
-    if (!ready) return;
     document.documentElement.setAttribute("data-theme", theme);
     window.localStorage.setItem("vn-theme", theme);
-  }, [theme, ready]);
+  }, [theme]);
 
   const toggle = useCallback(() => {
     setTheme((t) => (t === "light" ? "night" : "light"));

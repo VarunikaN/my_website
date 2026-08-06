@@ -1,100 +1,38 @@
-"use client";
-
-import { useEffect, useState } from "react";
+import Image from "next/image";
 import { site } from "@/data/site";
+import portrait from "../../varunika.jpeg";
 
 export function Hero() {
-  const [typed, setTyped] = useState("");
-  const [hookIdx, setHookIdx] = useState(0);
-  const [hookVisible, setHookVisible] = useState(true);
-  const full = site.brand;
-
-  useEffect(() => {
-    let i = 0;
-    const id = window.setInterval(() => {
-      i += 1;
-      setTyped(full.slice(0, i));
-      if (i >= full.length) window.clearInterval(id);
-    }, 55);
-    return () => window.clearInterval(id);
-  }, [full]);
-
-  useEffect(() => {
-    if (typed.length < full.length) return;
-    const id = window.setInterval(() => {
-      setHookVisible(false);
-      window.setTimeout(() => {
-        setHookIdx((n) => (n + 1) % site.hooks.length);
-        setHookVisible(true);
-      }, 280);
-    }, 3200);
-    return () => window.clearInterval(id);
-  }, [typed, full]);
-
   return (
-    <section className="relative min-h-[92vh] overflow-hidden px-5 pb-20 pt-28 md:px-10 md:pb-28 md:pt-36">
+    <section className="relative isolate overflow-hidden px-5 pb-20 pt-32 md:px-10 md:pb-28 md:pt-40">
       <div className="pointer-events-none absolute inset-0 atmosphere" />
-      <div className="pointer-events-none absolute inset-0 dot-grid opacity-70" />
-      <div
-        className="pointer-events-none absolute -right-10 top-24 h-72 w-72 animate-blob rounded-full opacity-50"
-        style={{ background: "var(--hero-glow-1)" }}
-      />
-      <div
-        className="pointer-events-none absolute bottom-10 left-10 h-56 w-56 animate-blob-delay rounded-full opacity-40"
-        style={{ background: "var(--hero-glow-2)" }}
-      />
-
-      <div className="relative mx-auto flex max-w-6xl flex-col justify-center">
-        <p
-          className="animate-rise font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.18em]"
-          style={{ color: "var(--accent)" }}
-        >
-          LoRA, voice-agent prompts & robots that don&apos;t flake · based in{" "}
-          {site.location}
-        </p>
-
-        <h1
-          className="mt-5 min-h-[1.15em] max-w-5xl font-[family-name:var(--font-sora)] text-[clamp(2.6rem,8.5vw,5.6rem)] font-bold leading-[0.95] tracking-[-0.04em]"
-          style={{ color: "var(--ink)" }}
-        >
-          {typed}
-          <span
-            className="animate-caret ml-1 inline-block w-[0.07em] translate-y-1 bg-[var(--accent)] align-baseline"
-            style={{ height: "0.82em" }}
-          />
-        </h1>
-
-        <p
-          className={`mt-6 max-w-2xl font-[family-name:var(--font-sora)] text-xl font-medium tracking-tight transition-all duration-300 md:text-2xl ${
-            hookVisible ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"
-          }`}
-          style={{ color: "var(--accent)" }}
-        >
-          {site.hooks[hookIdx]}
-        </p>
-
-        <p
-          className="animate-rise-2 mt-6 max-w-xl text-lg leading-relaxed md:text-xl"
-          style={{ color: "var(--ink-soft)" }}
-        >
-          {site.tagline}
-        </p>
-
-        <div className="animate-rise-3 mt-10 flex flex-wrap gap-3">
-          <a href="#play" className="btn-primary btn-magnetic">
-            Play a tiny game
-          </a>
-          <a href="#work" className="btn-ghost btn-magnetic">
-            See the work
-          </a>
-          <a href={site.resume} target="_blank" rel="noopener noreferrer" className="btn-ghost btn-magnetic">
-            Download resume
-          </a>
+      <div className="pointer-events-none absolute inset-0 dot-grid opacity-60" />
+      <div className="pointer-events-none absolute right-[8%] top-20 h-64 w-64 rounded-full bg-[var(--hero-glow-1)] blur-3xl" />
+      <div className="relative mx-auto grid max-w-6xl items-end gap-12 md:grid-cols-[1fr_auto]">
+        <div>
+          <p className="animate-rise font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.2em] text-[var(--accent)]">
+            AI / ML Engineer
+          </p>
+          <h1 className="animate-rise mt-5 max-w-4xl font-[family-name:var(--font-sora)] text-[clamp(3.3rem,8vw,6.7rem)] font-bold leading-[0.91] tracking-[-0.065em] text-[var(--ink)]">
+            Building clarity from complex systems.
+          </h1>
+          <p className="animate-rise-2 mt-7 max-w-xl text-lg leading-relaxed text-[var(--ink-soft)] md:text-xl">
+            I build measurable AI systems that help machines see better, reason faster, and navigate real-world problems.
+          </p>
+          <div className="animate-rise-3 mt-10 flex flex-wrap gap-3">
+            <a href="#projects" className="btn-primary btn-magnetic">Explore projects</a>
+            <a href="#contact" className="btn-ghost btn-magnetic">Start a conversation</a>
+          </div>
         </div>
-
-        <p className="mt-8 max-w-lg text-sm leading-relaxed" style={{ color: "var(--muted)" }}>
-          {site.summary}
-        </p>
+        <div className="animate-rise-2 relative mx-auto w-48 md:w-60">
+          <div className="absolute -inset-3 rotate-6 rounded-[2rem] border border-[var(--accent)]" />
+          <div className="relative aspect-square overflow-hidden rounded-[2rem] border border-[var(--line)] bg-[var(--bg-2)] shadow-[0_24px_60px_rgba(58,45,31,0.16)]">
+            <Image src={portrait} alt={site.name} fill className="object-cover object-top" sizes="240px" priority />
+          </div>
+          <p className="mt-4 text-center font-[family-name:var(--font-mono)] text-[10px] uppercase tracking-[0.16em] text-[var(--muted)]">
+            Varunika Naini
+          </p>
+        </div>
       </div>
     </section>
   );
