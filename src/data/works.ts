@@ -148,14 +148,19 @@ Full pipeline notes and media are **available on request**.
     externalUrl: "https://huggingface.co/DheyoAI/DeepSeek-R1-Distill-Qwen-1.5B-GGUF",
     blurb:
       "Shrink the model without shrinking the brain — smarter layer bit budgets, GGUFs on Hugging Face.",
-    body: `Small models are cute until they forget how to reason. I work on **dynamic quantization** that treats layers differently — protect the ones that carry hard thinking, squeeze the ones that don't.
+    body: `Small models are cute until they forget how to reason. My **dynamic quantization** work gives different layers different bit budgets: preserve the layers that carry difficult reasoning and compress the layers that do not.
 
-Two ideas I keep coming back to:
+### BAQ: sensitivity-aware bit allocation
 
-- **LIM** — how much does this layer actually change the signal? Important layers keep more precision.
-- **BAQ** — allocate bits with sensitivity in mind, not a blunt “everything is 4-bit” hammer.
+**BAQ** (Bit Allocation Quantization) calibrates an OPT model with a Hessian proxy, estimates each component's quantization sensitivity, and allocates precision accordingly. Instead of applying one fixed bit width to every weight, BAQ minimizes quantization loss under an average-bit budget. The workflow supports 2-, 3-, and 4-bit experiments, calibration on WikiText-2, PTB, or C4, and perplexity evaluation.
 
-Alpha / WeightWatcher-style scores and a calibration-free cousin (ZD) rounded out the comparison. LIM loved compression; ZD punched up on GPQA; BAQ sat in the balanced middle.
+### LIM: layer-wise importance for mixed precision
+
+**LIM** (Layer-wise Importance Metric) measures how each transformer's representations change relative to its input embeddings. The resulting layer scores rank which layers receive higher precision in a mixed 2/4-bit assignment. The implementation uses GSM8K calibration samples and exports both \`lim_scores.json\` and \`lim_bit_widths.json\` for reproducible analysis.
+
+Related comparisons include Alpha/WeightWatcher-style scores and a calibration-free ZD baseline. Together, these methods make the accuracy-memory trade-off visible rather than treating compression as a single global knob.
+
+Implementation: [BAQ and LIM quantization code](https://github.com/VarunikaN/Quantizations)
 
 ![Method pages](/images/quant/alpha/p-2.jpg)
 
@@ -377,7 +382,15 @@ Code: [LBA-Net on GitHub](https://github.com/VarunikaN/LBANet)
     cover: "/images/rdif/arch.jpg",
     blurb:
       "Make the model point at the anatomy — not a mysterious glow in the corner.",
-    body: `Accuracy without explanation is a hard sell in medicine. **RDIF** is about making the “why” look like anatomy: saliency that hugs structure instead of smearing into blobs.
+    body: `Accuracy without explanation is a hard sell in medicine. **RDIF-CAM** is a post-hoc explainability method for segmentation models that makes the “why” follow anatomical structure rather than diffuse into a generic glow.
+
+### How RDIF-CAM works
+
+RDIF-CAM begins with an **Integrated Gradients** seed map: gradients are accumulated along a path from a zero baseline to the input, then used to weight the target layer's feature maps. The seed is upsampled to the image resolution and refined with **radiomic-guided Perona-Malik anisotropic diffusion**.
+
+The radiomic gate combines Gabor responses, local binary patterns, and inverse local variance as a GLCM-homogeneity proxy. This directs diffusion through texturally meaningful regions while preserving sharp boundaries. The released implementation exports a heatmap, image overlay, and side-by-side comparison for a supplied image and segmentation model.
+
+Code: [RDIF-CAM on GitHub](https://github.com/VarunikaN/RDIF)
 
 ![RDIF idea](/images/rdif/pipeline.jpg)
 
