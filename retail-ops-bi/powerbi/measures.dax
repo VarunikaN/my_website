@@ -1,0 +1,35 @@
+# Power BI DAX measures — paste into the model after connecting to retail views
+
+Total Sales = SUM ( v_daily_sales[sales] )
+
+Total Profit = SUM ( v_daily_sales[profit] )
+
+Profit Margin % =
+DIVIDE ( [Total Profit], [Total Sales] )
+
+Orders = SUM ( v_daily_sales[orders] )
+
+Units = SUM ( v_daily_sales[units] )
+
+Stockout SKUs =
+CALCULATE (
+    COUNTROWS ( v_stockout_risk ),
+    v_stockout_risk[is_stockout_risk] = TRUE ()
+)
+
+Stockout Rate % =
+DIVIDE (
+    [Stockout SKUs],
+    COUNTROWS ( v_stockout_risk )
+)
+
+Avg Days of Supply =
+AVERAGE ( v_stockout_risk[days_of_supply] )
+
+# Optional time intelligence (needs a marked date table from dim_date / full_date)
+Sales MoM % =
+VAR Curr = [Total Sales]
+VAR Prev =
+    CALCULATE ( [Total Sales], DATEADD ( v_daily_sales[full_date], -1, MONTH ) )
+RETURN
+    DIVIDE ( Curr - Prev, Prev )
