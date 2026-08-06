@@ -154,6 +154,8 @@ Full pipeline notes and media are **available on request**.
 
 **BAQ** (Bit Allocation Quantization) calibrates an OPT model with a Hessian proxy, estimates each component's quantization sensitivity, and allocates precision accordingly. Instead of applying one fixed bit width to every weight, BAQ minimizes quantization loss under an average-bit budget. The workflow supports 2-, 3-, and 4-bit experiments, calibration on WikiText-2, PTB, or C4, and perplexity evaluation.
 
+> **The trade-off:** BAQ asks where every additional bit matters most, rather than spending precision uniformly.
+
 ### LIM: layer-wise importance for mixed precision
 
 **LIM** (Layer-wise Importance Metric) measures how each transformer's representations change relative to its input embeddings. The resulting layer scores rank which layers receive higher precision in a mixed 2/4-bit assignment. The implementation uses GSM8K calibration samples and exports both \`lim_scores.json\` and \`lim_bit_widths.json\` for reproducible analysis.
@@ -162,17 +164,11 @@ Related comparisons include Alpha/WeightWatcher-style scores and a calibration-f
 
 Implementation: [BAQ and LIM quantization code](https://github.com/VarunikaN/Quantizations)
 
-![Method pages](/images/quant/alpha/p-2.jpg)
-
 ![Accuracy charts](/images/quant/alpha/p-7.jpg)
-
-![Trade-off heatmaps](/images/quant/alpha/p-8.jpg)
 
 Try the GGUFs: [DheyoAI/DeepSeek-R1-Distill-Qwen-1.5B-GGUF](https://huggingface.co/DheyoAI/DeepSeek-R1-Distill-Qwen-1.5B-GGUF)
 
 ![GSM8K](/images/quant/gsm8k_benchmark.jpg)
-
-![AIME](/images/quant/aime_cons_64_benchmark_plot.jpg)
 
 Deeper recipes are **available on request**.
 `,
@@ -390,23 +386,13 @@ RDIF-CAM begins with an **Integrated Gradients** seed map: gradients are accumul
 
 The radiomic gate combines Gabor responses, local binary patterns, and inverse local variance as a GLCM-homogeneity proxy. This directs diffusion through texturally meaningful regions while preserving sharp boundaries. The released implementation exports a heatmap, image overlay, and side-by-side comparison for a supplied image and segmentation model.
 
+> **Why it matters:** the goal is not a brighter map. It is a map that stays inside the clinically meaningful structure.
+
 Code: [RDIF-CAM on GitHub](https://github.com/VarunikaN/RDIF)
 
 ![RDIF idea](/images/rdif/pipeline.jpg)
 
-![XAI view](/images/rdif/xai.jpg)
-
 ![Medical panels](/images/rdif/medical.jpg)
-
-![Epiphysis](/images/rdif/epiphysis.jpg)
-
-![JSRT](/images/rdif/jsrt.jpg)
-
-![Clinic](/images/rdif/clinic.jpg)
-
-![Cross-data](/images/rdif/crossdata.jpg)
-
-![Review](/images/rdif/review.jpg)
 
 Images from the Overleaf report. Full PDF **on request**.
 `,

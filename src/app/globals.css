@@ -234,14 +234,26 @@ a {
 
 .prose-vn img {
   border-radius: 0.35rem;
-  margin: 1.2rem 0;
+  margin: 1.5rem 0;
   width: 100%;
   height: auto;
-  aspect-ratio: 16 / 9;
-  object-fit: cover;
-  object-position: center;
   border: 1px solid var(--line);
   background: var(--bg-2);
+  cursor: zoom-in;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.prose-vn img:hover {
+  transform: scale(1.015);
+  box-shadow: 0 18px 40px color-mix(in srgb, var(--ink) 16%, transparent);
+}
+
+.prose-vn blockquote {
+  margin: 1.5rem 0;
+  padding: 0.85rem 1rem;
+  border-left: 3px solid var(--accent);
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+  color: var(--ink);
 }
 
 .prose-vn li {
