@@ -5,5 +5,4 @@ export const site = {
   phone: "+91 7032599534",
   github: "https://github.com/VarunikaN",
   linkedin: "https://www.linkedin.com/in/varunika-naini-631b5b2b3",
-  photo: "https://avatars.githubusercontent.com/u/152840551?v=4",
 };
