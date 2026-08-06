@@ -40,3 +40,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 mypic.jpeg
+
+# Standalone repos (tracked separately on GitHub)
+retail-ops-bi/
